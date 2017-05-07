@@ -6,6 +6,8 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.Ignition;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
@@ -15,8 +17,11 @@ import java.util.List;
 public class Ignite {
 
     public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("ignite-config.xml");
+
         try (org.apache.ignite.Ignite ignite = Ignition.start("examples/config/example-ignite.xml")) {
-            IgniteProcessEngineConfiguration config = new IgniteProcessEngineConfiguration(ignite);
+            IgniteProcessEngineConfiguration config = (IgniteProcessEngineConfiguration) context.getBean("config");
+            config.setIgnite(ignite);
             ProcessEngine processEngine = config.buildProcessEngine();
 
             RepositoryService repositoryService = processEngine.getRepositoryService();

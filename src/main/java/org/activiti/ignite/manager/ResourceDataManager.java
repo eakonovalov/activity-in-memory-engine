@@ -1,9 +1,12 @@
 package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.persistence.entity.ResourceEntity;
+import org.activiti.engine.impl.persistence.entity.ResourceEntityImpl;
+import org.activiti.engine.impl.persistence.entity.SuspendedJobEntity;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.activiti.ignite.entity.ResourceEntityImpl;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -12,11 +15,17 @@ import java.util.List;
  */
 public class ResourceDataManager extends AbstractDataManager<ResourceEntity> implements org.activiti.engine.impl.persistence.entity.data.ResourceDataManager {
 
+    @Autowired
+    @Qualifier("resourceEntityCache")
+    private CacheConfiguration<String, ResourceEntity> config;
+
     public ResourceDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
-        CacheConfiguration<String, ResourceEntity> ccfg = new CacheConfiguration<>(this.getClass().getName());
-        ccfg.setIndexedTypes(String.class, ResourceEntityImpl.class);
-        cache = processEngineConfiguration.getIgnite().getOrCreateCache(ccfg);
+    }
+
+    @Override
+    protected CacheConfiguration<String, ResourceEntity> getConfig() {
+        return config;
     }
 
     public ResourceEntity create() {

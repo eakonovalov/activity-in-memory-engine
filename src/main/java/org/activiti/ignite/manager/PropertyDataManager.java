@@ -1,9 +1,12 @@
 package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.persistence.entity.PropertyEntity;
+import org.activiti.engine.impl.persistence.entity.PropertyEntityImpl;
+import org.activiti.engine.impl.persistence.entity.SuspendedJobEntity;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.activiti.ignite.entity.PropertyEntityImpl;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -12,11 +15,17 @@ import java.util.List;
  */
 public class PropertyDataManager extends AbstractDataManager<PropertyEntity> implements org.activiti.engine.impl.persistence.entity.data.PropertyDataManager {
 
+    @Autowired
+    @Qualifier("propertyEntityCache")
+    private CacheConfiguration<String, PropertyEntity> config;
+
     public PropertyDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
-        CacheConfiguration<String, PropertyEntity> ccfg = new CacheConfiguration<>(this.getClass().getName());
-        ccfg.setIndexedTypes(String.class, PropertyEntityImpl.class);
-        cache = processEngineConfiguration.getIgnite().getOrCreateCache(ccfg);
+    }
+
+    @Override
+    protected CacheConfiguration<String, PropertyEntity> getConfig() {
+        return config;
     }
 
     public List<PropertyEntity> findAll() {

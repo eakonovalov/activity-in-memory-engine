@@ -3,11 +3,14 @@ package org.activiti.ignite.manager;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.ProcessDefinitionQueryImpl;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
+import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntityImpl;
+import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.activiti.ignite.entity.ProcessDefinitionEntityImpl;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.cache.Cache;
 import java.util.List;
@@ -18,11 +21,17 @@ import java.util.Map;
  */
 public class ProcessDefinitionDataManager extends AbstractDataManager<ProcessDefinitionEntity> implements org.activiti.engine.impl.persistence.entity.data.ProcessDefinitionDataManager {
 
+    @Autowired
+    @Qualifier("processDefinitionEntityCache")
+    private CacheConfiguration<String, ProcessDefinitionEntity> config;
+
     public ProcessDefinitionDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
-        CacheConfiguration<String, ProcessDefinitionEntity> ccfg = new CacheConfiguration<>(this.getClass().getName());
-        ccfg.setIndexedTypes(String.class, ProcessDefinitionEntityImpl.class);
-        cache = processEngineConfiguration.getIgnite().getOrCreateCache(ccfg);
+    }
+
+    @Override
+    protected CacheConfiguration<String, ProcessDefinitionEntity> getConfig() {
+        return config;
     }
 
     public ProcessDefinitionEntity create() {
@@ -32,7 +41,7 @@ public class ProcessDefinitionDataManager extends AbstractDataManager<ProcessDef
     public ProcessDefinitionEntity findLatestProcessDefinitionByKey(String processDefinitionKey) {
         String query = "key = ?";
 
-        List<Cache.Entry<String, ProcessDefinitionEntityImpl>> list = cache.query(new SqlQuery<String, ProcessDefinitionEntityImpl>(ProcessDefinitionEntityImpl.class, query).setArgs(processDefinitionKey)).getAll();
+        List<Cache.Entry<String, ProcessDefinitionEntityImpl>> list = getCache().query(new SqlQuery<String, ProcessDefinitionEntityImpl>(ProcessDefinitionEntityImpl.class, query).setArgs(processDefinitionKey)).getAll();
         ProcessDefinitionEntityImpl result = null;
         for (Cache.Entry<String, ProcessDefinitionEntityImpl> entry : list) {
             if (result == null || result.getVersion() < entry.getValue().getVersion()) {

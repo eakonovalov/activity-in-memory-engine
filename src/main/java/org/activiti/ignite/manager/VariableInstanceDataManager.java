@@ -1,10 +1,13 @@
 package org.activiti.ignite.manager;
 
+import org.activiti.engine.impl.persistence.entity.TimerJobEntity;
 import org.activiti.engine.impl.persistence.entity.VariableInstanceEntity;
+import org.activiti.engine.impl.persistence.entity.VariableInstanceEntityImpl;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.activiti.ignite.entity.VariableInstanceEntityImpl;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.cache.Cache;
 import java.util.ArrayList;
@@ -17,11 +20,17 @@ import java.util.Set;
  */
 public class VariableInstanceDataManager extends AbstractDataManager<VariableInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.VariableInstanceDataManager {
 
+    @Autowired
+    @Qualifier("variableInstanceEntityCache")
+    private CacheConfiguration<String, VariableInstanceEntity> config;
+
     public VariableInstanceDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
-        CacheConfiguration<String, VariableInstanceEntity> ccfg = new CacheConfiguration<>(this.getClass().getName());
-        ccfg.setIndexedTypes(String.class, VariableInstanceEntityImpl.class);
-        cache = processEngineConfiguration.getIgnite().getOrCreateCache(ccfg);
+    }
+
+    @Override
+    protected CacheConfiguration<String, VariableInstanceEntity> getConfig() {
+        return config;
     }
 
     public VariableInstanceEntity create() {
@@ -31,7 +40,7 @@ public class VariableInstanceDataManager extends AbstractDataManager<VariableIns
     public List<VariableInstanceEntity> findVariableInstancesByTaskId(String taskId) {
         String query = "taskId = ?";
 
-        List<Cache.Entry<String, VariableInstanceEntityImpl>> list = cache.query(new SqlQuery<String, VariableInstanceEntityImpl>(VariableInstanceEntityImpl.class, query).setArgs(taskId)).getAll();
+        List<Cache.Entry<String, VariableInstanceEntityImpl>> list = getCache().query(new SqlQuery<String, VariableInstanceEntityImpl>(VariableInstanceEntityImpl.class, query).setArgs(taskId)).getAll();
         List<VariableInstanceEntity> results = new ArrayList<>();
         for (Cache.Entry<String, VariableInstanceEntityImpl> entry : list) {
             results.add(entry.getValue());
@@ -47,7 +56,7 @@ public class VariableInstanceDataManager extends AbstractDataManager<VariableIns
     public List<VariableInstanceEntity> findVariableInstancesByExecutionId(String executionId) {
         String query = "executionId = ?";
 
-        List<Cache.Entry<String, VariableInstanceEntityImpl>> list = cache.query(new SqlQuery<String, VariableInstanceEntityImpl>(VariableInstanceEntityImpl.class, query).setArgs(executionId)).getAll();
+        List<Cache.Entry<String, VariableInstanceEntityImpl>> list = getCache().query(new SqlQuery<String, VariableInstanceEntityImpl>(VariableInstanceEntityImpl.class, query).setArgs(executionId)).getAll();
         List<VariableInstanceEntity> results = new ArrayList<>();
         for (Cache.Entry<String, VariableInstanceEntityImpl> entry : list) {
             results.add(entry.getValue());

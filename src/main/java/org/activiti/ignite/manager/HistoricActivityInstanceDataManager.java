@@ -4,10 +4,12 @@ import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.impl.HistoricActivityInstanceQueryImpl;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.persistence.entity.HistoricActivityInstanceEntity;
+import org.activiti.engine.impl.persistence.entity.HistoricActivityInstanceEntityImpl;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.activiti.ignite.entity.HistoricActivityInstanceEntityImpl;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.cache.Cache;
 import java.util.ArrayList;
@@ -19,17 +21,23 @@ import java.util.Map;
  */
 public class HistoricActivityInstanceDataManager extends AbstractDataManager<HistoricActivityInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.HistoricActivityInstanceDataManager {
 
+    @Autowired
+    @Qualifier("historicActivityInstanceEntityCache")
+    private CacheConfiguration<String, HistoricActivityInstanceEntity> config;
+
     public HistoricActivityInstanceDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
-        CacheConfiguration<String, HistoricActivityInstanceEntity> ccfg = new CacheConfiguration<>(this.getClass().getName());
-        ccfg.setIndexedTypes(String.class, HistoricActivityInstanceEntityImpl.class);
-        cache = processEngineConfiguration.getIgnite().getOrCreateCache(ccfg);
+    }
+
+    @Override
+    protected CacheConfiguration<String, HistoricActivityInstanceEntity> getConfig() {
+        return config;
     }
 
     public List<HistoricActivityInstanceEntity> findUnfinishedHistoricActivityInstancesByExecutionAndActivityId(String executionId, String activityId) {
         String query = "executionId = ? and activityId = ? and endTime = NULL";
 
-        List<Cache.Entry<String, HistoricActivityInstanceEntityImpl>> list = cache.query(new SqlQuery<String, HistoricActivityInstanceEntityImpl>(HistoricActivityInstanceEntityImpl.class, query).setArgs(executionId, activityId)).getAll();
+        List<Cache.Entry<String, HistoricActivityInstanceEntityImpl>> list = getCache().query(new SqlQuery<String, HistoricActivityInstanceEntityImpl>(HistoricActivityInstanceEntityImpl.class, query).setArgs(executionId, activityId)).getAll();
         List<HistoricActivityInstanceEntity> results = new ArrayList<>();
         for (Cache.Entry<String, HistoricActivityInstanceEntityImpl> entry : list) {
             results.add(entry.getValue());

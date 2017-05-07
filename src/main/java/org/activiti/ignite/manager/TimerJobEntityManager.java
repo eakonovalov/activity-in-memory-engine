@@ -4,12 +4,15 @@ import org.activiti.engine.delegate.VariableScope;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.TimerJobQueryImpl;
 import org.activiti.engine.impl.persistence.entity.JobEntity;
+import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.impl.persistence.entity.TimerJobEntity;
+import org.activiti.engine.impl.persistence.entity.TimerJobEntityImpl;
 import org.activiti.engine.runtime.Job;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.activiti.ignite.entity.TimerJobEntityImpl;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.cache.Cache;
 import java.util.ArrayList;
@@ -20,11 +23,17 @@ import java.util.List;
  */
 public class TimerJobEntityManager extends AbstractDataManager<TimerJobEntity> implements org.activiti.engine.impl.persistence.entity.TimerJobEntityManager {
 
+    @Autowired
+    @Qualifier("timerJobEntityCache")
+    private CacheConfiguration<String, TimerJobEntity> config;
+
     public TimerJobEntityManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
-        CacheConfiguration<String, TimerJobEntity> ccfg = new CacheConfiguration<>(this.getClass().getName());
-        ccfg.setIndexedTypes(String.class, TimerJobEntityImpl.class);
-        cache = processEngineConfiguration.getIgnite().getOrCreateCache(ccfg);
+    }
+
+    @Override
+    protected CacheConfiguration<String, TimerJobEntity> getConfig() {
+        return config;
     }
 
     @Override
@@ -46,7 +55,7 @@ public class TimerJobEntityManager extends AbstractDataManager<TimerJobEntity> i
     public List<TimerJobEntity> findJobsByTypeAndProcessDefinitionKeyAndTenantId(String type, String processDefinitionKey, String tenantId) {
         String query = "processDefinitionId = ? and jobType = ? and tenantId = ?";
 
-        List<Cache.Entry<String, TimerJobEntityImpl>> list = cache.query(new SqlQuery<String, TimerJobEntityImpl>(TimerJobEntityImpl.class, query).setArgs(type, processDefinitionKey, tenantId)).getAll();
+        List<Cache.Entry<String, TimerJobEntityImpl>> list = getCache().query(new SqlQuery<String, TimerJobEntityImpl>(TimerJobEntityImpl.class, query).setArgs(type, processDefinitionKey, tenantId)).getAll();
         List<TimerJobEntity> results = new ArrayList<>();
         for (Cache.Entry<String, TimerJobEntityImpl> entry : list) {
             results.add(entry.getValue());
@@ -59,7 +68,7 @@ public class TimerJobEntityManager extends AbstractDataManager<TimerJobEntity> i
     public List<TimerJobEntity> findJobsByTypeAndProcessDefinitionKeyNoTenantId(String type, String processDefinitionKey) {
         String query = "processDefinitionId = ? and jobType = ? and tenantId = NULL";
 
-        List<Cache.Entry<String, TimerJobEntityImpl>> list = cache.query(new SqlQuery<String, TimerJobEntityImpl>(TimerJobEntityImpl.class, query).setArgs(type, processDefinitionKey)).getAll();
+        List<Cache.Entry<String, TimerJobEntityImpl>> list = getCache().query(new SqlQuery<String, TimerJobEntityImpl>(TimerJobEntityImpl.class, query).setArgs(type, processDefinitionKey)).getAll();
         List<TimerJobEntity> results = new ArrayList<>();
         for (Cache.Entry<String, TimerJobEntityImpl> entry : list) {
             results.add(entry.getValue());
@@ -72,7 +81,7 @@ public class TimerJobEntityManager extends AbstractDataManager<TimerJobEntity> i
     public List<TimerJobEntity> findJobsByExecutionId(String executionId) {
         String query = "executionId = ?";
 
-        List<Cache.Entry<String, TimerJobEntityImpl>> list = cache.query(new SqlQuery<String, TimerJobEntityImpl>(TimerJobEntityImpl.class, query).setArgs(executionId)).getAll();
+        List<Cache.Entry<String, TimerJobEntityImpl>> list = getCache().query(new SqlQuery<String, TimerJobEntityImpl>(TimerJobEntityImpl.class, query).setArgs(executionId)).getAll();
         List<TimerJobEntity> results = new ArrayList<>();
         for (Cache.Entry<String, TimerJobEntityImpl> entry : list) {
             results.add(entry.getValue());

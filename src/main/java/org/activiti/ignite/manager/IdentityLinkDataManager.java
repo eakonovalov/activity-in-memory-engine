@@ -1,10 +1,12 @@
 package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.persistence.entity.IdentityLinkEntity;
+import org.activiti.engine.impl.persistence.entity.IdentityLinkEntityImpl;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.activiti.ignite.entity.IdentityLinkEntityImpl;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.cache.Cache;
 import java.util.ArrayList;
@@ -15,11 +17,17 @@ import java.util.List;
  */
 public class IdentityLinkDataManager extends AbstractDataManager<IdentityLinkEntity> implements org.activiti.engine.impl.persistence.entity.data.IdentityLinkDataManager {
 
+    @Autowired
+    @Qualifier("identityLinkEntityCache")
+    private CacheConfiguration<String, IdentityLinkEntity> config;
+
     public IdentityLinkDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
-        CacheConfiguration<String, IdentityLinkEntity> ccfg = new CacheConfiguration<>(this.getClass().getName());
-        ccfg.setIndexedTypes(String.class, IdentityLinkEntityImpl.class);
-        cache = processEngineConfiguration.getIgnite().getOrCreateCache(ccfg);
+    }
+
+    @Override
+    protected CacheConfiguration<String, IdentityLinkEntity> getConfig() {
+        return config;
     }
 
     public IdentityLinkEntity create() {
@@ -29,7 +37,7 @@ public class IdentityLinkDataManager extends AbstractDataManager<IdentityLinkEnt
     public List<IdentityLinkEntity> findIdentityLinksByTaskId(String taskId) {
         String query = "taskId = ?";
 
-        List<Cache.Entry<String, IdentityLinkEntityImpl>> list = cache.query(new SqlQuery<String, IdentityLinkEntityImpl>(IdentityLinkEntityImpl.class, query).setArgs(taskId)).getAll();
+        List<Cache.Entry<String, IdentityLinkEntityImpl>> list = getCache().query(new SqlQuery<String, IdentityLinkEntityImpl>(IdentityLinkEntityImpl.class, query).setArgs(taskId)).getAll();
         List<IdentityLinkEntity> results = new ArrayList<>();
         for (Cache.Entry<String, IdentityLinkEntityImpl> entry : list) {
             results.add(entry.getValue());
@@ -41,7 +49,7 @@ public class IdentityLinkDataManager extends AbstractDataManager<IdentityLinkEnt
     public List<IdentityLinkEntity> findIdentityLinksByProcessInstanceId(String processInstanceId) {
         String query = "processInstanceId = ?";
 
-        List<Cache.Entry<String, IdentityLinkEntityImpl>> list = cache.query(new SqlQuery<String, IdentityLinkEntityImpl>(IdentityLinkEntityImpl.class, query).setArgs(processInstanceId)).getAll();
+        List<Cache.Entry<String, IdentityLinkEntityImpl>> list = getCache().query(new SqlQuery<String, IdentityLinkEntityImpl>(IdentityLinkEntityImpl.class, query).setArgs(processInstanceId)).getAll();
         List<IdentityLinkEntity> results = new ArrayList<>();
         for (Cache.Entry<String, IdentityLinkEntityImpl> entry : list) {
             results.add(entry.getValue());

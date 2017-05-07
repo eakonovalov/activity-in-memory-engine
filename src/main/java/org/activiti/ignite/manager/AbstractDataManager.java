@@ -1,17 +1,20 @@
 package org.activiti.ignite.manager;
 
-import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.engine.impl.persistence.AbstractManager;
 import org.activiti.engine.impl.persistence.entity.Entity;
 import org.activiti.engine.impl.persistence.entity.data.DataManager;
+import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.IgniteCache;
+import org.apache.ignite.configuration.CacheConfiguration;
 
 public abstract class AbstractDataManager<E extends Entity> extends AbstractManager implements DataManager<E> {
 
-    protected IgniteCache<String, E> cache;
+    private IgniteProcessEngineConfiguration processEngineConfiguration;
+    private IgniteCache<String, E> cache;
 
-    public AbstractDataManager(ProcessEngineConfigurationImpl processEngineConfiguration) {
+    public AbstractDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
+        this.processEngineConfiguration = processEngineConfiguration;
     }
 
     public E findById(String entityId) {
@@ -19,14 +22,14 @@ public abstract class AbstractDataManager<E extends Entity> extends AbstractMana
             return null;
         }
 
-        return cache.get(entityId);
+        return getCache().get(entityId);
     }
 
     public void insert(E entity) {
         if (entity.getId() == null) {
             entity.setId(getProcessEngineConfiguration().getIdGenerator().getNextId());
         }
-        cache.put(entity.getId(), entity);
+        getCache().put(entity.getId(), entity);
     }
 
     public void insert(E entity, boolean fireCreateEvent) {
@@ -34,9 +37,9 @@ public abstract class AbstractDataManager<E extends Entity> extends AbstractMana
     }
 
     public E update(E entity) {
-        E matchingEntity = cache.get(entity.getId());
+        E matchingEntity = getCache().get(entity.getId());
         if (matchingEntity != null) {
-            cache.put(entity.getId(), entity);
+            getCache().put(entity.getId(), entity);
             return entity;
         } else {
             return null;
@@ -58,5 +61,14 @@ public abstract class AbstractDataManager<E extends Entity> extends AbstractMana
     public void delete(E entity, boolean fireDeleteEvent) {
         delete(entity);
     }
+
+    public IgniteCache<String, E> getCache() {
+        if (cache == null) {
+            cache = processEngineConfiguration.getIgnite().getOrCreateCache(getConfig());
+        }
+        return cache;
+    }
+
+    protected abstract CacheConfiguration<String, E> getConfig();
 
 }

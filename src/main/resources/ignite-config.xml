@@ -1,0 +1,81 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="org.activiti.ignite"/>
+
+    <import resource="executionEntityCache-config.xml"/>
+    <import resource="taskEntityCache-config.xml"/>
+    <import resource="identityLinkEntityCache-config.xml"/>
+    <import resource="historicProcessInstanceEntityCache-config.xml"/>
+    <import resource="historicActivityInstanceEntityCache-config.xml"/>
+    <import resource="historicTaskInstanceEntityCache-config.xml"/>
+    <import resource="processDefinitionEntityCache-config.xml"/>
+    <import resource="processDefinitionInfoEntityCache-config.xml"/>
+    <import resource="timerJobEntityCache-cache.xml"/>
+    <import resource="variableInstanceEntityCache-config.xml"/>
+    <import resource="jobEntityCache-config.xml"/>
+    <import resource="suspendedJobEntityCache-config.xml"/>
+    <import resource="deadLetterJobEntityCache-config.xml"/>
+    <import resource="eventSubscriptionEntityCache-config.xml"/>
+    <import resource="deploymentEntityCache-config.xml"/>
+    <import resource="resourceEntityCache-config.xml"/>
+    <import resource="propertyEntityCache-config.xml"/>
+
+    <bean id="config" class="org.activiti.ignite.IgniteProcessEngineConfiguration"/>
+
+    <bean id="executionDataManager" class="org.activiti.ignite.manager.ExecutionDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="taskDataManager" class="org.activiti.ignite.manager.TaskDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="identityLinkDataManager" class="org.activiti.ignite.manager.IdentityLinkDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="historicProcessInstanceDataManager" class="org.activiti.ignite.manager.HistoricProcessInstanceDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="historicActivityInstanceDataManager" class="org.activiti.ignite.manager.HistoricActivityInstanceDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="historicTaskInstanceDataManager" class="org.activiti.ignite.manager.HistoricTaskInstanceDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="processDefinitionDataManager" class="org.activiti.ignite.manager.ProcessDefinitionDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="processDefinitionInfoDataManager" class="org.activiti.ignite.manager.ProcessDefinitionInfoDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="timerJobEntityManager" class="org.activiti.ignite.manager.TimerJobEntityManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="variableInstanceDataManager" class="org.activiti.ignite.manager.VariableInstanceDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="jobDataManager" class="org.activiti.ignite.manager.JobDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="suspendedJobEntityManager" class="org.activiti.ignite.manager.SuspendedJobEntityManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="deadLetterJobEntityManager" class="org.activiti.ignite.manager.DeadLetterJobEntityManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="eventSubscriptionDataManager" class="org.activiti.ignite.manager.EventSubscriptionDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="deploymentDataManager" class="org.activiti.ignite.manager.DeploymentDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="resourceDataManager" class="org.activiti.ignite.manager.ResourceDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="propertyDataManager" class="org.activiti.ignite.manager.PropertyDataManager">
+        <constructor-arg ref="config"/>
+    </bean>
+
+</beans>

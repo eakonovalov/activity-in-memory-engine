@@ -4,10 +4,12 @@ import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.impl.HistoricTaskInstanceQueryImpl;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.persistence.entity.HistoricTaskInstanceEntity;
+import org.activiti.engine.impl.persistence.entity.HistoricTaskInstanceEntityImpl;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.activiti.ignite.entity.HistoricTaskInstanceEntityImpl;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 import java.util.Map;
@@ -17,11 +19,17 @@ import java.util.Map;
  */
 public class HistoricTaskInstanceDataManager extends AbstractDataManager<HistoricTaskInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.HistoricTaskInstanceDataManager {
 
+    @Autowired
+    @Qualifier("historicTaskInstanceEntityCache")
+    private CacheConfiguration<String, HistoricTaskInstanceEntity> config;
+
     public HistoricTaskInstanceDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
-        CacheConfiguration<String, HistoricTaskInstanceEntity> ccfg = new CacheConfiguration<>(this.getClass().getName());
-        ccfg.setIndexedTypes(String.class, HistoricTaskInstanceEntityImpl.class);
-        cache = processEngineConfiguration.getIgnite().getOrCreateCache(ccfg);
+    }
+
+    @Override
+    protected CacheConfiguration<String, HistoricTaskInstanceEntity> getConfig() {
+        return config;
     }
 
     public HistoricTaskInstanceEntity create() {

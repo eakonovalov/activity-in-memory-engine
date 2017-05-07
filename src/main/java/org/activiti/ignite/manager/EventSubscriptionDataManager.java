@@ -2,17 +2,12 @@ package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.EventSubscriptionQueryImpl;
 import org.activiti.engine.impl.Page;
-import org.activiti.engine.impl.persistence.entity.CompensateEventSubscriptionEntity;
-import org.activiti.engine.impl.persistence.entity.EventSubscriptionEntity;
-import org.activiti.engine.impl.persistence.entity.MessageEventSubscriptionEntity;
-import org.activiti.engine.impl.persistence.entity.SignalEventSubscriptionEntity;
+import org.activiti.engine.impl.persistence.entity.*;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.activiti.ignite.entity.CompensateEventSubscriptionEntityImpl;
-import org.activiti.ignite.entity.EventSubscriptionEntityImpl;
-import org.activiti.ignite.entity.MessageEventSubscriptionEntityImpl;
-import org.activiti.ignite.entity.SignalEventSubscriptionEntityImpl;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.cache.Cache;
 import java.util.ArrayList;
@@ -23,11 +18,17 @@ import java.util.List;
  */
 public class EventSubscriptionDataManager extends AbstractDataManager<EventSubscriptionEntity> implements org.activiti.engine.impl.persistence.entity.data.EventSubscriptionDataManager {
 
+    @Autowired
+    @Qualifier("eventSubscriptionEntityCache")
+    private CacheConfiguration<String, EventSubscriptionEntity> config;
+
     public EventSubscriptionDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
-        CacheConfiguration<String, EventSubscriptionEntity> ccfg = new CacheConfiguration<>(this.getClass().getName());
-        ccfg.setIndexedTypes(String.class, EventSubscriptionEntityImpl.class);
-        cache = processEngineConfiguration.getIgnite().getOrCreateCache(ccfg);
+    }
+
+    @Override
+    protected CacheConfiguration<String, EventSubscriptionEntity> getConfig() {
+        return config;
     }
 
     public CompensateEventSubscriptionEntity createCompensateEventSubscription() {
@@ -77,7 +78,7 @@ public class EventSubscriptionDataManager extends AbstractDataManager<EventSubsc
     public List<EventSubscriptionEntity> findEventSubscriptionsByExecution(String executionId) {
         String query = "executionId = ?";
 
-        List<Cache.Entry<String, EventSubscriptionEntityImpl>> list = cache.query(new SqlQuery<String, EventSubscriptionEntityImpl>(EventSubscriptionEntityImpl.class, query).setArgs(executionId)).getAll();
+        List<Cache.Entry<String, EventSubscriptionEntityImpl>> list = getCache().query(new SqlQuery<String, EventSubscriptionEntityImpl>(EventSubscriptionEntityImpl.class, query).setArgs(executionId)).getAll();
         List<EventSubscriptionEntity> results = new ArrayList<>();
         for (Cache.Entry<String, EventSubscriptionEntityImpl> entry : list) {
             results.add(entry.getValue());

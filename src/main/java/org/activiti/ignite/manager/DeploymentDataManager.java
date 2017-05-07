@@ -2,11 +2,14 @@ package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.DeploymentQueryImpl;
 import org.activiti.engine.impl.Page;
+import org.activiti.engine.impl.persistence.entity.DeadLetterJobEntity;
 import org.activiti.engine.impl.persistence.entity.DeploymentEntity;
+import org.activiti.engine.impl.persistence.entity.DeploymentEntityImpl;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.activiti.ignite.entity.DeploymentEntityImpl;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 import java.util.Map;
@@ -16,11 +19,17 @@ import java.util.Map;
  */
 public class DeploymentDataManager extends AbstractDataManager<DeploymentEntity> implements org.activiti.engine.impl.persistence.entity.data.DeploymentDataManager {
 
+    @Autowired
+    @Qualifier("deploymentEntityCache")
+    private CacheConfiguration<String, DeploymentEntity> config;
+
     public DeploymentDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
-        CacheConfiguration<String, DeploymentEntity> ccfg = new CacheConfiguration<>(this.getClass().getName());
-        ccfg.setIndexedTypes(String.class, DeploymentEntityImpl.class);
-        cache = processEngineConfiguration.getIgnite().getOrCreateCache(ccfg);
+    }
+
+    @Override
+    protected CacheConfiguration<String, DeploymentEntity> getConfig() {
+        return config;
     }
 
     public DeploymentEntity findLatestDeploymentByName(String deploymentName) {

@@ -2,11 +2,13 @@ package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.TaskQueryImpl;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
+import org.activiti.engine.impl.persistence.entity.TaskEntityImpl;
 import org.activiti.engine.task.Task;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.activiti.ignite.entity.TaskEntityImpl;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.cache.Cache;
 import java.util.ArrayList;
@@ -18,13 +20,18 @@ import java.util.Map;
  */
 public class TaskDataManager extends AbstractDataManager<TaskEntity> implements org.activiti.engine.impl.persistence.entity.data.TaskDataManager {
 
+    @Autowired
+    @Qualifier("taskEntityCache")
+    private CacheConfiguration<String, TaskEntity> config;
+
     public TaskDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
-        CacheConfiguration<String, TaskEntity> ccfg = new CacheConfiguration<>(this.getClass().getName());
-        ccfg.setIndexedTypes(String.class, TaskEntityImpl.class);
-        cache = processEngineConfiguration.getIgnite().getOrCreateCache(ccfg);
     }
 
+    @Override
+    protected CacheConfiguration<String, TaskEntity> getConfig() {
+        return config;
+    }
 
     public TaskEntity create() {
         return new TaskEntityImpl();
@@ -37,7 +44,7 @@ public class TaskDataManager extends AbstractDataManager<TaskEntity> implements 
     public List<TaskEntity> findTasksByExecutionId(String executionId) {
         String query = "executionId = ?";
 
-        List<Cache.Entry<String, TaskEntityImpl>> list = cache.query(new SqlQuery<String, TaskEntityImpl>(TaskEntityImpl.class, query).setArgs(executionId)).getAll();
+        List<Cache.Entry<String, TaskEntityImpl>> list = getCache().query(new SqlQuery<String, TaskEntityImpl>(TaskEntityImpl.class, query).setArgs(executionId)).getAll();
         List<TaskEntity> results = new ArrayList<>();
         for (Cache.Entry<String, TaskEntityImpl> entry : list) {
             results.add(entry.getValue());
@@ -63,7 +70,7 @@ public class TaskDataManager extends AbstractDataManager<TaskEntity> implements 
             args.add(taskQuery.getProcessInstanceId());
         }
 
-        List<Cache.Entry<String, TaskEntityImpl>> list = cache.query(new SqlQuery<String, TaskEntityImpl>(TaskEntityImpl.class, query).setArgs(args.toArray())).getAll();
+        List<Cache.Entry<String, TaskEntityImpl>> list = getCache().query(new SqlQuery<String, TaskEntityImpl>(TaskEntityImpl.class, query).setArgs(args.toArray())).getAll();
         List<Task> results = new ArrayList<>();
         for (Cache.Entry<String, TaskEntityImpl> entry : list) {
             results.add(entry.getValue());
@@ -91,7 +98,7 @@ public class TaskDataManager extends AbstractDataManager<TaskEntity> implements 
     public List<Task> findTasksByParentTaskId(String parentTaskId) {
         String query = "parentTaskId = ?";
 
-        List<Cache.Entry<String, TaskEntityImpl>> list = cache.query(new SqlQuery<String, TaskEntityImpl>(TaskEntityImpl.class, query).setArgs(parentTaskId)).getAll();
+        List<Cache.Entry<String, TaskEntityImpl>> list = getCache().query(new SqlQuery<String, TaskEntityImpl>(TaskEntityImpl.class, query).setArgs(parentTaskId)).getAll();
         List<Task> results = new ArrayList<>();
         for (Cache.Entry<String, TaskEntityImpl> entry : list) {
             results.add(entry.getValue());

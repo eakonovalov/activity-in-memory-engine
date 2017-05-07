@@ -1,0 +1,45 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="historicActivityInstanceEntityCache" class="org.apache.ignite.configuration.CacheConfiguration">
+        <property name="name" value="historicActivityInstanceEntityCache"/>
+        <property name="queryEntities">
+            <list>
+                <bean class="org.apache.ignite.cache.QueryEntity">
+                    <property name="keyType" value="java.lang.String"/>
+                    <property name="valueType" value="org.activiti.engine.impl.persistence.entity.HistoricActivityInstanceEntityImpl"/>
+                    <property name="fields">
+                        <map>
+                            <entry key="id" value="java.lang.String"/>
+                            <entry key="endTime" value="java.util.Date"/>
+                            <entry key="startTime" value="java.util.Date"/>
+                            <entry key="activityId" value="java.lang.String"/>
+                            <entry key="executionId" value="java.lang.String"/>
+                        </map>
+                    </property>
+                    <property name="indexes">
+                        <list>
+                            <bean class="org.apache.ignite.cache.QueryIndex">
+                                <constructor-arg value="id"/>
+                            </bean>
+                            <bean class="org.apache.ignite.cache.QueryIndex">
+                                <constructor-arg value="endTime"/>
+                            </bean>
+                            <bean class="org.apache.ignite.cache.QueryIndex">
+                                <constructor-arg value="startTime"/>
+                            </bean>
+                            <bean class="org.apache.ignite.cache.QueryIndex">
+                                <constructor-arg value="activityId"/>
+                            </bean>
+                            <bean class="org.apache.ignite.cache.QueryIndex">
+                                <constructor-arg value="executionId"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

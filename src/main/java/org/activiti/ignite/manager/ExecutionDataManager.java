@@ -4,29 +4,34 @@ import org.activiti.engine.impl.ExecutionQueryImpl;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.ProcessInstanceQueryImpl;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
+import org.activiti.engine.impl.persistence.entity.ExecutionEntityImpl;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.activiti.ignite.entity.ExecutionEntityImpl;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.cache.Cache;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * @author Joram Barrez
- */
 public class ExecutionDataManager extends AbstractDataManager<ExecutionEntity> implements org.activiti.engine.impl.persistence.entity.data.ExecutionDataManager {
 
-    protected Map<String, ExecutionEntity> entities = new ConcurrentHashMap<>();
+    @Autowired
+    @Qualifier("executionEntityCache")
+    private CacheConfiguration<String, ExecutionEntity> config;
+
+    private Map<String, ExecutionEntity> entities = new ConcurrentHashMap<>();
 
     public ExecutionDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
-        CacheConfiguration<String, ExecutionEntity> ccfg = new CacheConfiguration<>(this.getClass().getName());
-        ccfg.setIndexedTypes(String.class, ExecutionEntityImpl.class);
-        cache = processEngineConfiguration.getIgnite().getOrCreateCache(ccfg);
+    }
+
+    @Override
+    protected CacheConfiguration<String, ExecutionEntity> getConfig() {
+        return config;
     }
 
     public ExecutionEntity findById(String entityId) {
@@ -37,7 +42,7 @@ public class ExecutionDataManager extends AbstractDataManager<ExecutionEntity> i
         ExecutionEntity e = entities.get(entityId);
         if (e != null) return e;
 
-        return cache.get(entityId);
+        return getCache().get(entityId);
     }
 
     public void insert(ExecutionEntity entity) {
@@ -45,14 +50,14 @@ public class ExecutionDataManager extends AbstractDataManager<ExecutionEntity> i
             entity.setId(getProcessEngineConfiguration().getIdGenerator().getNextId());
         }
         entities.put(entity.getId(), entity);
-        cache.put(entity.getId(), entity);
+        getCache().put(entity.getId(), entity);
     }
 
     public ExecutionEntity update(ExecutionEntity entity) {
-        ExecutionEntity matchingEntity = cache.get(entity.getId());
+        ExecutionEntity matchingEntity = getCache().get(entity.getId());
         if (matchingEntity != null) {
             entities.put(entity.getId(), entity);
-            cache.put(entity.getId(), entity);
+            getCache().put(entity.getId(), entity);
             return entity;
         } else {
             return null;
@@ -61,7 +66,7 @@ public class ExecutionDataManager extends AbstractDataManager<ExecutionEntity> i
 
     public void delete(String id) {
         entities.remove(id);
-        cache.remove(id);
+        getCache().remove(id);
     }
 
     public ExecutionEntity create() {
@@ -71,7 +76,7 @@ public class ExecutionDataManager extends AbstractDataManager<ExecutionEntity> i
     public ExecutionEntity findSubProcessInstanceBySuperExecutionId(String superExecutionId) {
         String query = "superExecutionId = ?";
 
-        List<Cache.Entry<String, ExecutionEntityImpl>> list = cache.query(new SqlQuery<String, ExecutionEntityImpl>(ExecutionEntityImpl.class, query).setArgs(superExecutionId)).getAll();
+        List<Cache.Entry<String, ExecutionEntityImpl>> list = getCache().query(new SqlQuery<String, ExecutionEntityImpl>(ExecutionEntityImpl.class, query).setArgs(superExecutionId)).getAll();
 
         return list.size() > 0 ? list.get(0).getValue() : null;
     }
@@ -79,7 +84,7 @@ public class ExecutionDataManager extends AbstractDataManager<ExecutionEntity> i
     public List<ExecutionEntity> findChildExecutionsByParentExecutionId(String parentExecutionId) {
         String query = "parentId = ?";
 
-        List<Cache.Entry<String, ExecutionEntityImpl>> list = cache.query(new SqlQuery<String, ExecutionEntityImpl>(ExecutionEntityImpl.class, query).setArgs(parentExecutionId)).getAll();
+        List<Cache.Entry<String, ExecutionEntityImpl>> list = getCache().query(new SqlQuery<String, ExecutionEntityImpl>(ExecutionEntityImpl.class, query).setArgs(parentExecutionId)).getAll();
         List<ExecutionEntity> results = new ArrayList<>();
         for (Cache.Entry<String, ExecutionEntityImpl> entry : list) {
             results.add(entry.getValue());
@@ -91,7 +96,7 @@ public class ExecutionDataManager extends AbstractDataManager<ExecutionEntity> i
     public List<ExecutionEntity> findChildExecutionsByProcessInstanceId(String processInstanceId) {
         String query = "processInstanceId = ?";
 
-        List<Cache.Entry<String, ExecutionEntityImpl>> list = cache.query(new SqlQuery<String, ExecutionEntityImpl>(ExecutionEntityImpl.class, query).setArgs(processInstanceId)).getAll();
+        List<Cache.Entry<String, ExecutionEntityImpl>> list = getCache().query(new SqlQuery<String, ExecutionEntityImpl>(ExecutionEntityImpl.class, query).setArgs(processInstanceId)).getAll();
         List<ExecutionEntity> results = new ArrayList<>();
         for (Cache.Entry<String, ExecutionEntityImpl> entry : list) {
             results.add(entry.getValue());
@@ -123,7 +128,7 @@ public class ExecutionDataManager extends AbstractDataManager<ExecutionEntity> i
     public List<ExecutionEntity> findExecutionsByRootProcessInstanceId(String rootProcessInstanceId) {
         String query = "rootProcessInstanceId = ?";
 
-        List<Cache.Entry<String, ExecutionEntityImpl>> list = cache.query(new SqlQuery<String, ExecutionEntityImpl>(ExecutionEntityImpl.class, query).setArgs(rootProcessInstanceId)).getAll();
+        List<Cache.Entry<String, ExecutionEntityImpl>> list = getCache().query(new SqlQuery<String, ExecutionEntityImpl>(ExecutionEntityImpl.class, query).setArgs(rootProcessInstanceId)).getAll();
         List<ExecutionEntity> results = new ArrayList<>();
         for (Cache.Entry<String, ExecutionEntityImpl> entry : list) {
             results.add(entry.getValue());

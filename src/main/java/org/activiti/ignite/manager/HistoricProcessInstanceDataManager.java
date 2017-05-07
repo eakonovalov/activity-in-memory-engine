@@ -4,10 +4,12 @@ import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.impl.HistoricProcessInstanceQueryImpl;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.persistence.entity.HistoricProcessInstanceEntity;
+import org.activiti.engine.impl.persistence.entity.HistoricProcessInstanceEntityImpl;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.activiti.ignite.entity.HistoricProcessInstanceEntityImpl;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.cache.Cache;
 import java.util.ArrayList;
@@ -19,11 +21,17 @@ import java.util.Map;
  */
 public class HistoricProcessInstanceDataManager extends AbstractDataManager<HistoricProcessInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.HistoricProcessInstanceDataManager {
 
+    @Autowired
+    @Qualifier("historicProcessInstanceEntityCache")
+    private CacheConfiguration<String, HistoricProcessInstanceEntity> config;
+
     public HistoricProcessInstanceDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
-        CacheConfiguration<String, HistoricProcessInstanceEntity> ccfg = new CacheConfiguration<>(this.getClass().getName());
-        ccfg.setIndexedTypes(String.class, HistoricProcessInstanceEntityImpl.class);
-        cache = processEngineConfiguration.getIgnite().getOrCreateCache(ccfg);
+    }
+
+    @Override
+    protected CacheConfiguration<String, HistoricProcessInstanceEntity> getConfig() {
+        return config;
     }
 
     public HistoricProcessInstanceEntity create() {
@@ -58,9 +66,9 @@ public class HistoricProcessInstanceDataManager extends AbstractDataManager<Hist
             queryString += "endTime IS NULL";
         }
 
-        if (queryString.length() == 0) return cache.size();
+        if (queryString.length() == 0) return getCache().size();
 
-        List<Cache.Entry<String, HistoricProcessInstanceEntityImpl>> list = cache.query(new SqlQuery<String, HistoricProcessInstanceEntityImpl>(HistoricProcessInstanceEntityImpl.class, queryString).setArgs(args.toArray())).getAll();
+        List<Cache.Entry<String, HistoricProcessInstanceEntityImpl>> list = getCache().query(new SqlQuery<String, HistoricProcessInstanceEntityImpl>(HistoricProcessInstanceEntityImpl.class, queryString).setArgs(args.toArray())).getAll();
 
         return list.size();
     }
