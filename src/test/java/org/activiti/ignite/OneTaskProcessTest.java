@@ -35,7 +35,7 @@ public class OneTaskProcessTest {
     }
 
     @Test
-    public void test() {
+    public void testOneTaskProcessUserTask() {
         RepositoryService repositoryService = processEngine.getRepositoryService();
         RuntimeService runtimeService = processEngine.getRuntimeService();
         TaskService taskService = processEngine.getTaskService();
@@ -56,7 +56,7 @@ public class OneTaskProcessTest {
     }
 
     @Test
-    public void test2() {
+    public void testOneTaskProcessServiceTask() {
         RepositoryService repositoryService = processEngine.getRepositoryService();
         RuntimeService runtimeService = processEngine.getRuntimeService();
         HistoryService historyService = processEngine.getHistoryService();
