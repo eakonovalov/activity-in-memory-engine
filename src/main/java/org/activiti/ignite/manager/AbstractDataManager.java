@@ -7,6 +7,9 @@ import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.configuration.CacheConfiguration;
 
+/**
+ * Created by ekonovalov on 26.04.2017.
+ */
 public abstract class AbstractDataManager<E extends Entity> extends AbstractManager implements DataManager<E> {
 
     private IgniteProcessEngineConfiguration processEngineConfiguration;

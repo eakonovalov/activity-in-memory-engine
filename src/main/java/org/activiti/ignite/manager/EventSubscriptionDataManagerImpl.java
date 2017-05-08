@@ -14,15 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Joram Barrez
+ * Created by ekonovalov on 26.04.2017.
  */
-public class EventSubscriptionDataManager extends AbstractDataManager<EventSubscriptionEntity> implements org.activiti.engine.impl.persistence.entity.data.EventSubscriptionDataManager {
+public class EventSubscriptionDataManagerImpl extends AbstractDataManager<EventSubscriptionEntity> implements org.activiti.engine.impl.persistence.entity.data.EventSubscriptionDataManager {
 
     @Autowired
     @Qualifier("eventSubscriptionEntityCache")
     private CacheConfiguration<String, EventSubscriptionEntity> config;
 
-    public EventSubscriptionDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
+    public EventSubscriptionDataManagerImpl(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 

@@ -16,15 +16,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Joram Barrez
+ * Created by ekonovalov on 26.04.2017.
  */
-public class TaskDataManager extends AbstractDataManager<TaskEntity> implements org.activiti.engine.impl.persistence.entity.data.TaskDataManager {
+public class TaskDataManagerImpl extends AbstractDataManager<TaskEntity> implements org.activiti.engine.impl.persistence.entity.data.TaskDataManager {
 
     @Autowired
     @Qualifier("taskEntityCache")
     private CacheConfiguration<String, TaskEntity> config;
 
-    public TaskDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
+    public TaskDataManagerImpl(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 

@@ -15,15 +15,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Joram Barrez
+ * Created by ekonovalov on 26.04.2017.
  */
-public class HistoricTaskInstanceDataManager extends AbstractDataManager<HistoricTaskInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.HistoricTaskInstanceDataManager {
+public class HistoricTaskInstanceDataManagerImpl extends AbstractDataManager<HistoricTaskInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.HistoricTaskInstanceDataManager {
 
     @Autowired
     @Qualifier("historicTaskInstanceEntityCache")
     private CacheConfiguration<String, HistoricTaskInstanceEntity> config;
 
-    public HistoricTaskInstanceDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
+    public HistoricTaskInstanceDataManagerImpl(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 

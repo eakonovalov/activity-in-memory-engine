@@ -1,6 +1,5 @@
 package org.activiti.ignite.manager;
 
-import org.activiti.engine.impl.persistence.entity.TimerJobEntity;
 import org.activiti.engine.impl.persistence.entity.VariableInstanceEntity;
 import org.activiti.engine.impl.persistence.entity.VariableInstanceEntityImpl;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
@@ -16,15 +15,15 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author Joram Barrez
+ * Created by ekonovalov on 26.04.2017.
  */
-public class VariableInstanceDataManager extends AbstractDataManager<VariableInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.VariableInstanceDataManager {
+public class VariableInstanceDataManagerImpl extends AbstractDataManager<VariableInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.VariableInstanceDataManager {
 
     @Autowired
     @Qualifier("variableInstanceEntityCache")
     private CacheConfiguration<String, VariableInstanceEntity> config;
 
-    public VariableInstanceDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
+    public VariableInstanceDataManagerImpl(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 

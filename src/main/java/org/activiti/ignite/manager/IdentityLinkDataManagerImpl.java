@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Joram Barrez
+ * Created by ekonovalov on 26.04.2017.
  */
-public class IdentityLinkDataManager extends AbstractDataManager<IdentityLinkEntity> implements org.activiti.engine.impl.persistence.entity.data.IdentityLinkDataManager {
+public class IdentityLinkDataManagerImpl extends AbstractDataManager<IdentityLinkEntity> implements org.activiti.engine.impl.persistence.entity.data.IdentityLinkDataManager {
 
     @Autowired
     @Qualifier("identityLinkEntityCache")
     private CacheConfiguration<String, IdentityLinkEntity> config;
 
-    public IdentityLinkDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
+    public IdentityLinkDataManagerImpl(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 

@@ -2,7 +2,6 @@ package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.DeploymentQueryImpl;
 import org.activiti.engine.impl.Page;
-import org.activiti.engine.impl.persistence.entity.DeadLetterJobEntity;
 import org.activiti.engine.impl.persistence.entity.DeploymentEntity;
 import org.activiti.engine.impl.persistence.entity.DeploymentEntityImpl;
 import org.activiti.engine.repository.Deployment;
@@ -15,15 +14,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Joram Barrez
+ * Created by ekonovalov on 26.04.2017.
  */
-public class DeploymentDataManager extends AbstractDataManager<DeploymentEntity> implements org.activiti.engine.impl.persistence.entity.data.DeploymentDataManager {
+public class DeploymentDataManagerImpl extends AbstractDataManager<DeploymentEntity> implements org.activiti.engine.impl.persistence.entity.data.DeploymentDataManager {
 
     @Autowired
     @Qualifier("deploymentEntityCache")
     private CacheConfiguration<String, DeploymentEntity> config;
 
-    public DeploymentDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
+    public DeploymentDataManagerImpl(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 

@@ -4,7 +4,6 @@ import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.SuspendedJobQueryImpl;
 import org.activiti.engine.impl.persistence.entity.SuspendedJobEntity;
 import org.activiti.engine.impl.persistence.entity.SuspendedJobEntityImpl;
-import org.activiti.engine.impl.persistence.entity.TimerJobEntity;
 import org.activiti.engine.runtime.Job;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.cache.query.SqlQuery;
@@ -19,13 +18,13 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class SuspendedJobEntityManager extends AbstractDataManager<SuspendedJobEntity> implements org.activiti.engine.impl.persistence.entity.SuspendedJobEntityManager {
+public class SuspendedJobDataManagerImpl extends AbstractDataManager<SuspendedJobEntity> implements org.activiti.engine.impl.persistence.entity.SuspendedJobEntityManager {
 
     @Autowired
     @Qualifier("suspendedJobEntityCache")
     private CacheConfiguration<String, SuspendedJobEntity> config;
 
-    public SuspendedJobEntityManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
+    public SuspendedJobDataManagerImpl(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 

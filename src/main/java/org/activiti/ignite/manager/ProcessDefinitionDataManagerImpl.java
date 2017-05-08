@@ -4,7 +4,6 @@ import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.ProcessDefinitionQueryImpl;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntityImpl;
-import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.cache.query.SqlQuery;
@@ -17,15 +16,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Joram Barrez
+ * Created by ekonovalov on 26.04.2017.
  */
-public class ProcessDefinitionDataManager extends AbstractDataManager<ProcessDefinitionEntity> implements org.activiti.engine.impl.persistence.entity.data.ProcessDefinitionDataManager {
+public class ProcessDefinitionDataManagerImpl extends AbstractDataManager<ProcessDefinitionEntity> implements org.activiti.engine.impl.persistence.entity.data.ProcessDefinitionDataManager {
 
     @Autowired
     @Qualifier("processDefinitionEntityCache")
     private CacheConfiguration<String, ProcessDefinitionEntity> config;
 
-    public ProcessDefinitionDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
+    public ProcessDefinitionDataManagerImpl(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 

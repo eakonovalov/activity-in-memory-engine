@@ -17,15 +17,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Joram Barrez
+ * Created by ekonovalov on 26.04.2017.
  */
-public class HistoricProcessInstanceDataManager extends AbstractDataManager<HistoricProcessInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.HistoricProcessInstanceDataManager {
+public class HistoricProcessInstanceDataManagerImpl extends AbstractDataManager<HistoricProcessInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.HistoricProcessInstanceDataManager {
 
     @Autowired
     @Qualifier("historicProcessInstanceEntityCache")
     private CacheConfiguration<String, HistoricProcessInstanceEntity> config;
 
-    public HistoricProcessInstanceDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
+    public HistoricProcessInstanceDataManagerImpl(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 

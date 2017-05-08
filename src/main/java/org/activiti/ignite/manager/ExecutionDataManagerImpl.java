@@ -17,7 +17,10 @@ import javax.cache.Cache;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ExecutionDataManager extends AbstractDataManager<ExecutionEntity> implements org.activiti.engine.impl.persistence.entity.data.ExecutionDataManager {
+/**
+ * Created by ekonovalov on 26.04.2017.
+ */
+public class ExecutionDataManagerImpl extends AbstractDataManager<ExecutionEntity> implements org.activiti.engine.impl.persistence.entity.data.ExecutionDataManager {
 
     @Autowired
     @Qualifier("executionEntityCache")
@@ -25,7 +28,7 @@ public class ExecutionDataManager extends AbstractDataManager<ExecutionEntity> i
 
     private Map<String, ExecutionEntity> entities = new ConcurrentHashMap<>();
 
-    public ExecutionDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
+    public ExecutionDataManagerImpl(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 

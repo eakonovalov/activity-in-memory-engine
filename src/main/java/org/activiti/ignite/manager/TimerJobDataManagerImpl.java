@@ -4,7 +4,6 @@ import org.activiti.engine.delegate.VariableScope;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.TimerJobQueryImpl;
 import org.activiti.engine.impl.persistence.entity.JobEntity;
-import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.impl.persistence.entity.TimerJobEntity;
 import org.activiti.engine.impl.persistence.entity.TimerJobEntityImpl;
 import org.activiti.engine.runtime.Job;
@@ -21,13 +20,13 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class TimerJobEntityManager extends AbstractDataManager<TimerJobEntity> implements org.activiti.engine.impl.persistence.entity.TimerJobEntityManager {
+public class TimerJobDataManagerImpl extends AbstractDataManager<TimerJobEntity> implements org.activiti.engine.impl.persistence.entity.TimerJobEntityManager {
 
     @Autowired
     @Qualifier("timerJobEntityCache")
     private CacheConfiguration<String, TimerJobEntity> config;
 
-    public TimerJobEntityManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
+    public TimerJobDataManagerImpl(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 
