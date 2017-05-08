@@ -4,6 +4,7 @@ import org.activiti.engine.impl.JobQueryImpl;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.persistence.entity.JobEntity;
 import org.activiti.engine.impl.persistence.entity.JobEntityImpl;
+import org.activiti.engine.impl.persistence.entity.data.JobDataManager;
 import org.activiti.engine.runtime.Job;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.cache.query.SqlQuery;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class JobDataManagerImpl extends AbstractDataManager<JobEntity> implements org.activiti.engine.impl.persistence.entity.data.JobDataManager {
+public class JobDataManagerImpl extends AbstractDataManager<JobEntity> implements JobDataManager {
 
     @Autowired
     @Qualifier("jobEntityCache")

@@ -3,6 +3,7 @@ package org.activiti.ignite.manager;
 import org.activiti.engine.impl.TaskQueryImpl;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.impl.persistence.entity.TaskEntityImpl;
+import org.activiti.engine.impl.persistence.entity.data.TaskDataManager;
 import org.activiti.engine.task.Task;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.cache.query.SqlQuery;
@@ -18,7 +19,7 @@ import java.util.Map;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class TaskDataManagerImpl extends AbstractDataManager<TaskEntity> implements org.activiti.engine.impl.persistence.entity.data.TaskDataManager {
+public class TaskDataManagerImpl extends AbstractDataManager<TaskEntity> implements TaskDataManager {
 
     @Autowired
     @Qualifier("taskEntityCache")

@@ -3,6 +3,7 @@ package org.activiti.ignite.manager;
 import org.activiti.engine.impl.EventSubscriptionQueryImpl;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.persistence.entity.*;
+import org.activiti.engine.impl.persistence.entity.data.EventSubscriptionDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class EventSubscriptionDataManagerImpl extends AbstractDataManager<EventSubscriptionEntity> implements org.activiti.engine.impl.persistence.entity.data.EventSubscriptionDataManager {
+public class EventSubscriptionDataManagerImpl extends AbstractDataManager<EventSubscriptionEntity> implements EventSubscriptionDataManager {
 
     @Autowired
     @Qualifier("eventSubscriptionEntityCache")

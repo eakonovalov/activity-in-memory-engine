@@ -1,11 +1,10 @@
 package org.activiti.ignite.manager;
 
-import org.activiti.engine.delegate.VariableScope;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.TimerJobQueryImpl;
-import org.activiti.engine.impl.persistence.entity.JobEntity;
 import org.activiti.engine.impl.persistence.entity.TimerJobEntity;
 import org.activiti.engine.impl.persistence.entity.TimerJobEntityImpl;
+import org.activiti.engine.impl.persistence.entity.data.TimerJobDataManager;
 import org.activiti.engine.runtime.Job;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.cache.query.SqlQuery;
@@ -20,7 +19,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class TimerJobDataManagerImpl extends AbstractDataManager<TimerJobEntity> implements org.activiti.engine.impl.persistence.entity.TimerJobEntityManager {
+public class TimerJobDataManagerImpl extends AbstractDataManager<TimerJobEntity> implements TimerJobDataManager {
 
     @Autowired
     @Qualifier("timerJobEntityCache")
@@ -33,11 +32,6 @@ public class TimerJobDataManagerImpl extends AbstractDataManager<TimerJobEntity>
     @Override
     protected CacheConfiguration<String, TimerJobEntity> getConfig() {
         return config;
-    }
-
-    @Override
-    public boolean insertTimerJobEntity(TimerJobEntity timerJobEntity) {
-        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -101,11 +95,6 @@ public class TimerJobDataManagerImpl extends AbstractDataManager<TimerJobEntity>
 
     @Override
     public long findJobCountByQueryCriteria(TimerJobQueryImpl jobQuery) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public TimerJobEntity createAndCalculateNextTimer(JobEntity timerEntity, VariableScope variableScope) {
         throw new UnsupportedOperationException();
     }
 

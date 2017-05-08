@@ -2,6 +2,7 @@ package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionInfoEntity;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionInfoEntityImpl;
+import org.activiti.engine.impl.persistence.entity.data.ProcessDefinitionInfoDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class ProcessDefinitionInfoDataManagerImpl extends AbstractDataManager<ProcessDefinitionInfoEntity> implements org.activiti.engine.impl.persistence.entity.data.ProcessDefinitionInfoDataManager {
+public class ProcessDefinitionInfoDataManagerImpl extends AbstractDataManager<ProcessDefinitionInfoEntity> implements ProcessDefinitionInfoDataManager {
 
     @Autowired
     @Qualifier("processDefinitionInfoEntityCache")

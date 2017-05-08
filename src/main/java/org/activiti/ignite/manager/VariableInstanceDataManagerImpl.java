@@ -2,6 +2,7 @@ package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.persistence.entity.VariableInstanceEntity;
 import org.activiti.engine.impl.persistence.entity.VariableInstanceEntityImpl;
+import org.activiti.engine.impl.persistence.entity.data.VariableInstanceDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
@@ -17,7 +18,7 @@ import java.util.Set;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class VariableInstanceDataManagerImpl extends AbstractDataManager<VariableInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.VariableInstanceDataManager {
+public class VariableInstanceDataManagerImpl extends AbstractDataManager<VariableInstanceEntity> implements VariableInstanceDataManager {
 
     @Autowired
     @Qualifier("variableInstanceEntityCache")

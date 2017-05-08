@@ -5,6 +5,7 @@ import org.activiti.engine.impl.HistoricProcessInstanceQueryImpl;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.persistence.entity.HistoricProcessInstanceEntity;
 import org.activiti.engine.impl.persistence.entity.HistoricProcessInstanceEntityImpl;
+import org.activiti.engine.impl.persistence.entity.data.HistoricProcessInstanceDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
@@ -19,7 +20,7 @@ import java.util.Map;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class HistoricProcessInstanceDataManagerImpl extends AbstractDataManager<HistoricProcessInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.HistoricProcessInstanceDataManager {
+public class HistoricProcessInstanceDataManagerImpl extends AbstractDataManager<HistoricProcessInstanceEntity> implements HistoricProcessInstanceDataManager {
 
     @Autowired
     @Qualifier("historicProcessInstanceEntityCache")

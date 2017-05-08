@@ -5,6 +5,7 @@ import org.activiti.engine.impl.HistoricActivityInstanceQueryImpl;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.persistence.entity.HistoricActivityInstanceEntity;
 import org.activiti.engine.impl.persistence.entity.HistoricActivityInstanceEntityImpl;
+import org.activiti.engine.impl.persistence.entity.data.HistoricActivityInstanceDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
@@ -19,7 +20,7 @@ import java.util.Map;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class HistoricActivityInstanceDataManagerImpl extends AbstractDataManager<HistoricActivityInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.HistoricActivityInstanceDataManager {
+public class HistoricActivityInstanceDataManagerImpl extends AbstractDataManager<HistoricActivityInstanceEntity> implements HistoricActivityInstanceDataManager {
 
     @Autowired
     @Qualifier("historicActivityInstanceEntityCache")

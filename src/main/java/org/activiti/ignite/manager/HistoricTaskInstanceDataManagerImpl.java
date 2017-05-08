@@ -6,6 +6,7 @@ import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.persistence.entity.HistoricTaskInstanceEntity;
 import org.activiti.engine.impl.persistence.entity.HistoricTaskInstanceEntityImpl;
 import org.activiti.engine.impl.persistence.entity.TaskEntity;
+import org.activiti.engine.impl.persistence.entity.data.HistoricTaskInstanceDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.Map;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class HistoricTaskInstanceDataManagerImpl extends AbstractDataManager<HistoricTaskInstanceEntity> implements org.activiti.engine.impl.persistence.entity.data.HistoricTaskInstanceDataManager {
+public class HistoricTaskInstanceDataManagerImpl extends AbstractDataManager<HistoricTaskInstanceEntity> implements HistoricTaskInstanceDataManager {
 
     @Autowired
     @Qualifier("historicTaskInstanceEntityCache")

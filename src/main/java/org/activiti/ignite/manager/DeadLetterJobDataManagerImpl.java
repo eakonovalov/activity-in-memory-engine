@@ -4,6 +4,7 @@ import org.activiti.engine.impl.DeadLetterJobQueryImpl;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.persistence.entity.DeadLetterJobEntity;
 import org.activiti.engine.impl.persistence.entity.DeadLetterJobEntityImpl;
+import org.activiti.engine.impl.persistence.entity.data.DeadLetterJobDataManager;
 import org.activiti.engine.runtime.Job;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.cache.query.SqlQuery;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class DeadLetterJobDataManagerImpl extends AbstractDataManager<DeadLetterJobEntity> implements org.activiti.engine.impl.persistence.entity.DeadLetterJobEntityManager {
+public class DeadLetterJobDataManagerImpl extends AbstractDataManager<DeadLetterJobEntity> implements DeadLetterJobDataManager {
 
     @Autowired
     @Qualifier("deadLetterJobEntityCache")

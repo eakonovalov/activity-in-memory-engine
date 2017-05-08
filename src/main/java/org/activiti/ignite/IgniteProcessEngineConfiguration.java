@@ -3,7 +3,6 @@ package org.activiti.ignite;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.engine.impl.interceptor.CommandInterceptor;
 import org.activiti.engine.impl.persistence.StrongUuidGenerator;
-import org.activiti.engine.impl.persistence.entity.DeadLetterJobEntityManager;
 import org.activiti.engine.impl.persistence.entity.SuspendedJobEntityManager;
 import org.activiti.engine.impl.persistence.entity.TimerJobEntityManager;
 import org.activiti.engine.impl.persistence.entity.data.*;
@@ -78,8 +77,8 @@ public class IgniteProcessEngineConfiguration extends ProcessEngineConfiguration
 
     @Override
     @Autowired
-    public ProcessEngineConfigurationImpl setTimerJobEntityManager(TimerJobEntityManager timerJobEntityManager) {
-        return super.setTimerJobEntityManager(timerJobEntityManager);
+    public ProcessEngineConfigurationImpl setTimerJobDataManager(TimerJobDataManager timerJobDataManager) {
+        return super.setTimerJobDataManager(timerJobDataManager);
     }
 
     @Override
@@ -96,14 +95,14 @@ public class IgniteProcessEngineConfiguration extends ProcessEngineConfiguration
 
     @Override
     @Autowired
-    public ProcessEngineConfigurationImpl setSuspendedJobEntityManager(SuspendedJobEntityManager suspendedJobEntityManager) {
-        return super.setSuspendedJobEntityManager(suspendedJobEntityManager);
+    public ProcessEngineConfigurationImpl setSuspendedJobDataManager(SuspendedJobDataManager suspendedJobDataManager) {
+        return super.setSuspendedJobDataManager(suspendedJobDataManager);
     }
 
     @Override
     @Autowired
-    public ProcessEngineConfigurationImpl setDeadLetterJobEntityManager(DeadLetterJobEntityManager deadLetterJobEntityManager) {
-        return super.setDeadLetterJobEntityManager(deadLetterJobEntityManager);
+    public ProcessEngineConfigurationImpl setDeadLetterJobDataManager(DeadLetterJobDataManager deadLetterJobDataManager) {
+        return super.setDeadLetterJobDataManager(deadLetterJobDataManager);
     }
 
     @Override

@@ -2,6 +2,7 @@ package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.persistence.entity.IdentityLinkEntity;
 import org.activiti.engine.impl.persistence.entity.IdentityLinkEntityImpl;
+import org.activiti.engine.impl.persistence.entity.data.IdentityLinkDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class IdentityLinkDataManagerImpl extends AbstractDataManager<IdentityLinkEntity> implements org.activiti.engine.impl.persistence.entity.data.IdentityLinkDataManager {
+public class IdentityLinkDataManagerImpl extends AbstractDataManager<IdentityLinkEntity> implements IdentityLinkDataManager {
 
     @Autowired
     @Qualifier("identityLinkEntityCache")

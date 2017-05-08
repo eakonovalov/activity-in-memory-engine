@@ -2,6 +2,7 @@ package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.persistence.entity.ResourceEntity;
 import org.activiti.engine.impl.persistence.entity.ResourceEntityImpl;
+import org.activiti.engine.impl.persistence.entity.data.ResourceDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class ResourceDataManagerImpl extends AbstractDataManager<ResourceEntity> implements org.activiti.engine.impl.persistence.entity.data.ResourceDataManager {
+public class ResourceDataManagerImpl extends AbstractDataManager<ResourceEntity> implements ResourceDataManager {
 
     @Autowired
     @Qualifier("resourceEntityCache")

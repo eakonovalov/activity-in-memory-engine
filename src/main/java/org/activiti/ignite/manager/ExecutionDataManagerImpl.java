@@ -5,6 +5,7 @@ import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.ProcessInstanceQueryImpl;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntityImpl;
+import org.activiti.engine.impl.persistence.entity.data.ExecutionDataManager;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class ExecutionDataManagerImpl extends AbstractDataManager<ExecutionEntity> implements org.activiti.engine.impl.persistence.entity.data.ExecutionDataManager {
+public class ExecutionDataManagerImpl extends AbstractDataManager<ExecutionEntity> implements ExecutionDataManager {
 
     @Autowired
     @Qualifier("executionEntityCache")

@@ -4,6 +4,7 @@ import org.activiti.engine.impl.DeploymentQueryImpl;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.persistence.entity.DeploymentEntity;
 import org.activiti.engine.impl.persistence.entity.DeploymentEntityImpl;
+import org.activiti.engine.impl.persistence.entity.data.DeploymentDataManager;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.configuration.CacheConfiguration;
@@ -16,7 +17,7 @@ import java.util.Map;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class DeploymentDataManagerImpl extends AbstractDataManager<DeploymentEntity> implements org.activiti.engine.impl.persistence.entity.data.DeploymentDataManager {
+public class DeploymentDataManagerImpl extends AbstractDataManager<DeploymentEntity> implements DeploymentDataManager {
 
     @Autowired
     @Qualifier("deploymentEntityCache")
