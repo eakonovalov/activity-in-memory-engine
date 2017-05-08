@@ -41,10 +41,10 @@ public class OneTaskProcessTest {
         TaskService taskService = processEngine.getTaskService();
         HistoryService historyService = processEngine.getHistoryService();
 
-        Deployment deployment = repositoryService.createDeployment().addClasspathResource("oneTaskProcess.bpmn20.xml").deploy();
+        Deployment deployment = repositoryService.createDeployment().addClasspathResource("oneTaskProcess_UserTask.bpmn20.xml").deploy();
         System.out.println("Process deployed! Deployment id is " + deployment.getId());
 
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("oneTaskProcess");
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("oneTaskProcess_UserTask");
         System.out.println("Process started key = " + processInstance.getBusinessKey());
         List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).list();
         System.out.println("Got " + tasks.size() + " tasks!");
@@ -61,10 +61,10 @@ public class OneTaskProcessTest {
         RuntimeService runtimeService = processEngine.getRuntimeService();
         HistoryService historyService = processEngine.getHistoryService();
 
-        Deployment deployment = repositoryService.createDeployment().addClasspathResource("oneTaskProcess2.bpmn20.xml").deploy();
+        Deployment deployment = repositoryService.createDeployment().addClasspathResource("oneTaskProcess_ServiceTask.bpmn20.xml").deploy();
         System.out.println("Process deployed! Deployment id is " + deployment.getId());
 
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("oneTaskProcess2");
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("oneTaskProcess_ServiceTask");
         System.out.println("Process started key = " + processInstance.getBusinessKey());
 
         System.out.println("Number of process instances = " + historyService.createHistoricProcessInstanceQuery().count());
