@@ -6,9 +6,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.Ignition;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -19,20 +17,20 @@ import java.util.List;
  */
 public class OneTaskProcessTest {
 
-    private ApplicationContext context = new ClassPathXmlApplicationContext("ignite-config.xml");
-    private Ignite ignite;
-    private ProcessEngine processEngine;
+    private static ApplicationContext context = new ClassPathXmlApplicationContext("ignite-config.xml");
+    private static Ignite ignite;
+    private static ProcessEngine processEngine;
 
-    @Before
-    public void before() {
+    @BeforeClass
+    public static void setup() {
         ignite = Ignition.start("examples/config/example-ignite.xml");
         IgniteProcessEngineConfiguration config = (IgniteProcessEngineConfiguration) context.getBean("config");
         config.setIgnite(ignite);
         processEngine = config.buildProcessEngine();
     }
 
-    @After
-    public void after() {
+    @AfterClass
+    public static void after() {
         ignite.close();
     }
 
