@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class VariableInstanceDataManagerImpl extends AbstractDataManager<VariableInstanceEntity> implements VariableInstanceDataManager {
+public class VariableInstanceDataManagerImpl extends AbstractDataManager<VariableInstanceEntity, VariableInstanceEntityImpl> implements VariableInstanceDataManager {
 
     @Autowired
     @Qualifier("variableInstanceEntityCache")
@@ -38,15 +38,7 @@ public class VariableInstanceDataManagerImpl extends AbstractDataManager<Variabl
     }
 
     public List<VariableInstanceEntity> findVariableInstancesByTaskId(String taskId) {
-        String query = "taskId = ?";
-
-        List<Cache.Entry<String, VariableInstanceEntityImpl>> list = getCache().query(new SqlQuery<String, VariableInstanceEntityImpl>(VariableInstanceEntityImpl.class, query).setArgs(taskId)).getAll();
-        List<VariableInstanceEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, VariableInstanceEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(VariableInstanceEntityImpl.class, "taskId = ?", taskId);
     }
 
     public List<VariableInstanceEntity> findVariableInstancesByTaskIds(Set<String> taskIds) {
@@ -54,15 +46,7 @@ public class VariableInstanceDataManagerImpl extends AbstractDataManager<Variabl
     }
 
     public List<VariableInstanceEntity> findVariableInstancesByExecutionId(String executionId) {
-        String query = "executionId = ?";
-
-        List<Cache.Entry<String, VariableInstanceEntityImpl>> list = getCache().query(new SqlQuery<String, VariableInstanceEntityImpl>(VariableInstanceEntityImpl.class, query).setArgs(executionId)).getAll();
-        List<VariableInstanceEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, VariableInstanceEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(VariableInstanceEntityImpl.class, "executionId = ?", executionId);
     }
 
     public List<VariableInstanceEntity> findVariableInstancesByExecutionIds(Set<String> executionIds) {

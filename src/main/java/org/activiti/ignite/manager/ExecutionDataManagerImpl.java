@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class ExecutionDataManagerImpl extends AbstractDataManager<ExecutionEntity> implements ExecutionDataManager {
+public class ExecutionDataManagerImpl extends AbstractDataManager<ExecutionEntity, ExecutionEntityImpl> implements ExecutionDataManager {
 
     @Autowired
     @Qualifier("executionEntityCache")
@@ -78,35 +78,15 @@ public class ExecutionDataManagerImpl extends AbstractDataManager<ExecutionEntit
     }
 
     public ExecutionEntity findSubProcessInstanceBySuperExecutionId(String superExecutionId) {
-        String query = "superExecutionId = ?";
-
-        List<Cache.Entry<String, ExecutionEntityImpl>> list = getCache().query(new SqlQuery<String, ExecutionEntityImpl>(ExecutionEntityImpl.class, query).setArgs(superExecutionId)).getAll();
-
-        return list.size() > 0 ? list.get(0).getValue() : null;
+        return findOne(ExecutionEntityImpl.class, "superExecutionId = ?", superExecutionId);
     }
 
     public List<ExecutionEntity> findChildExecutionsByParentExecutionId(String parentExecutionId) {
-        String query = "parentId = ?";
-
-        List<Cache.Entry<String, ExecutionEntityImpl>> list = getCache().query(new SqlQuery<String, ExecutionEntityImpl>(ExecutionEntityImpl.class, query).setArgs(parentExecutionId)).getAll();
-        List<ExecutionEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, ExecutionEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(ExecutionEntityImpl.class, "parentId = ?", parentExecutionId);
     }
 
     public List<ExecutionEntity> findChildExecutionsByProcessInstanceId(String processInstanceId) {
-        String query = "processInstanceId = ?";
-
-        List<Cache.Entry<String, ExecutionEntityImpl>> list = getCache().query(new SqlQuery<String, ExecutionEntityImpl>(ExecutionEntityImpl.class, query).setArgs(processInstanceId)).getAll();
-        List<ExecutionEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, ExecutionEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(ExecutionEntityImpl.class, "processInstanceId = ?", processInstanceId);
     }
 
     public List<ExecutionEntity> findExecutionsByParentExecutionAndActivityIds(String parentExecutionId, Collection<String> activityIds) {
@@ -130,15 +110,7 @@ public class ExecutionDataManagerImpl extends AbstractDataManager<ExecutionEntit
     }
 
     public List<ExecutionEntity> findExecutionsByRootProcessInstanceId(String rootProcessInstanceId) {
-        String query = "rootProcessInstanceId = ?";
-
-        List<Cache.Entry<String, ExecutionEntityImpl>> list = getCache().query(new SqlQuery<String, ExecutionEntityImpl>(ExecutionEntityImpl.class, query).setArgs(rootProcessInstanceId)).getAll();
-        List<ExecutionEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, ExecutionEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(ExecutionEntityImpl.class, "rootProcessInstanceId = ?", rootProcessInstanceId);
     }
 
     public List<ExecutionEntity> findExecutionsByProcessInstanceId(String processInstanceId) {

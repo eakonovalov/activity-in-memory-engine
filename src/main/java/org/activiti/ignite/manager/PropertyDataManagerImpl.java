@@ -8,12 +8,13 @@ import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class PropertyDataManagerImpl extends AbstractDataManager<PropertyEntity> implements PropertyDataManager {
+public class PropertyDataManagerImpl extends AbstractDataManager<PropertyEntity, PropertyEntityImpl> implements PropertyDataManager {
 
     @Autowired
     @Qualifier("propertyEntityCache")
@@ -26,10 +27,6 @@ public class PropertyDataManagerImpl extends AbstractDataManager<PropertyEntity>
     @Override
     protected CacheConfiguration<String, PropertyEntity> getConfig() {
         return config;
-    }
-
-    public List<PropertyEntity> findAll() {
-        throw new UnsupportedOperationException();
     }
 
     public PropertyEntity create() {

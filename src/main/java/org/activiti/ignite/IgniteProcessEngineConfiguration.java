@@ -3,8 +3,6 @@ package org.activiti.ignite;
 import org.activiti.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.activiti.engine.impl.interceptor.CommandInterceptor;
 import org.activiti.engine.impl.persistence.StrongUuidGenerator;
-import org.activiti.engine.impl.persistence.entity.SuspendedJobEntityManager;
-import org.activiti.engine.impl.persistence.entity.TimerJobEntityManager;
 import org.activiti.engine.impl.persistence.entity.data.*;
 import org.activiti.transaction.NoopTransactionContextFactory;
 import org.apache.ignite.Ignite;
@@ -139,6 +137,18 @@ public class IgniteProcessEngineConfiguration extends ProcessEngineConfiguration
     @Autowired
     public ProcessEngineConfigurationImpl setTaskDataManager(TaskDataManager taskDataManager) {
         return super.setTaskDataManager(taskDataManager);
+    }
+
+    @Override
+    @Autowired
+    public ProcessEngineConfigurationImpl setAttachmentDataManager(AttachmentDataManager attachmentDataManager) {
+        return super.setAttachmentDataManager(attachmentDataManager);
+    }
+
+    @Override
+    @Autowired
+    public ProcessEngineConfigurationImpl setByteArrayDataManager(ByteArrayDataManager byteArrayDataManager) {
+        return super.setByteArrayDataManager(byteArrayDataManager);
     }
 
 }

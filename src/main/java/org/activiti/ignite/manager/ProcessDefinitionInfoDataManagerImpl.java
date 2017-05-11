@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class ProcessDefinitionInfoDataManagerImpl extends AbstractDataManager<ProcessDefinitionInfoEntity> implements ProcessDefinitionInfoDataManager {
+public class ProcessDefinitionInfoDataManagerImpl extends AbstractDataManager<ProcessDefinitionInfoEntity, ProcessDefinitionInfoEntityImpl> implements ProcessDefinitionInfoDataManager {
 
     @Autowired
     @Qualifier("processDefinitionInfoEntityCache")
@@ -32,9 +32,7 @@ public class ProcessDefinitionInfoDataManagerImpl extends AbstractDataManager<Pr
 
     @Override
     public ProcessDefinitionInfoEntity findProcessDefinitionInfoByProcessDefinitionId(String processDefinitionId) {
-        String query = "processDefinitionId = ?";
-        List<Cache.Entry<String, ProcessDefinitionInfoEntityImpl>> list = getCache().query(new SqlQuery<String, ProcessDefinitionInfoEntityImpl>(ProcessDefinitionInfoEntityImpl.class, query).setArgs(processDefinitionId)).getAll();
-        return list.size() > 0 ? list.get(0).getValue() : null;
+        return findOne(ProcessDefinitionInfoEntityImpl.class, "processDefinitionId = ?", processDefinitionId);
     }
 
     @Override

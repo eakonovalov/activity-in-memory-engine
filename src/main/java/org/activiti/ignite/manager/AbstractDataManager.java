@@ -1,16 +1,21 @@
 package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.persistence.AbstractManager;
-import org.activiti.engine.impl.persistence.entity.Entity;
+import org.activiti.engine.impl.persistence.entity.*;
 import org.activiti.engine.impl.persistence.entity.data.DataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.IgniteCache;
+import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
+
+import javax.cache.Cache;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public abstract class AbstractDataManager<E extends Entity> extends AbstractManager implements DataManager<E> {
+public abstract class AbstractDataManager<E extends Entity, I extends E> extends AbstractManager implements DataManager<E> {
 
     private IgniteProcessEngineConfiguration processEngineConfiguration;
     private IgniteCache<String, E> cache;
@@ -73,5 +78,28 @@ public abstract class AbstractDataManager<E extends Entity> extends AbstractMana
     }
 
     protected abstract CacheConfiguration<String, E> getConfig();
+
+    public List<E> findList(Class<I> clazz, String query, Object... args) {
+        List<Cache.Entry<String, I>> list = getCache().query(new SqlQuery<String, I>(clazz, query).setArgs(args)).getAll();
+        List<E> result = new ArrayList<>();
+        for (Cache.Entry<String, I> entry : list) {
+            result.add(entry.getValue());
+        }
+
+        return result;
+    }
+
+    public E findOne(Class<I> clazz, String query, Object... args) {
+        List<Cache.Entry<String, I>> list = getCache().query(new SqlQuery<String, I>(clazz, query).setArgs(args)).getAll();
+        if(list.size() > 0) throw new RuntimeException("Query fetched more than one object");
+        return list.size() > 0 ? list.get(0).getValue() : null;
+    }
+
+    public List<E> findAll() {
+        List<E> result = new ArrayList<>();
+        getCache().forEach(e -> result.add(e.getValue()));
+
+        return result;
+    }
 
 }

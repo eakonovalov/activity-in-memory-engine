@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class JobDataManagerImpl extends AbstractDataManager<JobEntity> implements JobDataManager {
+public class JobDataManagerImpl extends AbstractDataManager<JobEntity, JobEntityImpl> implements JobDataManager {
 
     @Autowired
     @Qualifier("jobEntityCache")
@@ -43,15 +43,7 @@ public class JobDataManagerImpl extends AbstractDataManager<JobEntity> implement
     }
 
     public List<JobEntity> findJobsByExecutionId(String executionId) {
-        String query = "executionId = ?";
-
-        List<Cache.Entry<String, JobEntityImpl>> list = getCache().query(new SqlQuery<String, JobEntityImpl>(JobEntityImpl.class, query).setArgs(executionId)).getAll();
-        List<JobEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, JobEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(JobEntityImpl.class, "executionId = ?", executionId);
     }
 
     public List<JobEntity> findJobsByProcessInstanceId(String processInstanceId) {

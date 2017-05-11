@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class DeadLetterJobDataManagerImpl extends AbstractDataManager<DeadLetterJobEntity> implements DeadLetterJobDataManager {
+public class DeadLetterJobDataManagerImpl extends AbstractDataManager<DeadLetterJobEntity, DeadLetterJobEntityImpl> implements DeadLetterJobDataManager {
 
     @Autowired
     @Qualifier("deadLetterJobEntityCache")
@@ -36,15 +36,7 @@ public class DeadLetterJobDataManagerImpl extends AbstractDataManager<DeadLetter
 
     @Override
     public List<DeadLetterJobEntity> findJobsByExecutionId(String executionId) {
-        String query = "executionId = ?";
-
-        List<Cache.Entry<String, DeadLetterJobEntityImpl>> list = getCache().query(new SqlQuery<String, DeadLetterJobEntityImpl>(DeadLetterJobEntityImpl.class, query).setArgs(executionId)).getAll();
-        List<DeadLetterJobEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, DeadLetterJobEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(DeadLetterJobEntityImpl.class, "executionId = ?", executionId);
     }
 
     @Override

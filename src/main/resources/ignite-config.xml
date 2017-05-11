@@ -23,6 +23,8 @@
     <import resource="deploymentEntityCache-config.xml"/>
     <import resource="resourceEntityCache-config.xml"/>
     <import resource="propertyEntityCache-config.xml"/>
+    <import resource="attachmentEntityCache-cache.xml"/>
+    <import resource="byteArrayEntityCache-config.xml"/>
 
     <bean id="config" class="org.activiti.ignite.IgniteProcessEngineConfiguration"/>
 
@@ -78,6 +80,12 @@
         <constructor-arg ref="config"/>
     </bean>
     <bean id="propertyDataManager" class="org.activiti.ignite.manager.PropertyDataManagerImpl">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="attachmentDataManager" class="org.activiti.ignite.manager.AttachmentDataManagerImpl">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="byteArrayDataManager" class="org.activiti.ignite.manager.ByteArrayDataManagerImpl">
         <constructor-arg ref="config"/>
     </bean>
 

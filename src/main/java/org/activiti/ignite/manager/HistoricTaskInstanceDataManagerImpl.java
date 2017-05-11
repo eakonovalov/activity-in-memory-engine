@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class HistoricTaskInstanceDataManagerImpl extends AbstractDataManager<HistoricTaskInstanceEntity> implements HistoricTaskInstanceDataManager {
+public class HistoricTaskInstanceDataManagerImpl extends AbstractDataManager<HistoricTaskInstanceEntity, HistoricTaskInstanceEntityImpl> implements HistoricTaskInstanceDataManager {
 
     @Autowired
     @Qualifier("historicTaskInstanceEntityCache")

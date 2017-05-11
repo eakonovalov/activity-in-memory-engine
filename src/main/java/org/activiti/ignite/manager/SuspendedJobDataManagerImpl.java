@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class SuspendedJobDataManagerImpl extends AbstractDataManager<SuspendedJobEntity> implements SuspendedJobDataManager {
+public class SuspendedJobDataManagerImpl extends AbstractDataManager<SuspendedJobEntity, SuspendedJobEntityImpl> implements SuspendedJobDataManager {
 
     @Autowired
     @Qualifier("suspendedJobEntityCache")
@@ -36,15 +36,7 @@ public class SuspendedJobDataManagerImpl extends AbstractDataManager<SuspendedJo
 
     @Override
     public List<SuspendedJobEntity> findJobsByExecutionId(String executionId) {
-        String query = "executionId = ?";
-
-        List<Cache.Entry<String, SuspendedJobEntityImpl>> list = getCache().query(new SqlQuery<String, SuspendedJobEntityImpl>(SuspendedJobEntityImpl.class, query).setArgs(executionId)).getAll();
-        List<SuspendedJobEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, SuspendedJobEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(SuspendedJobEntityImpl.class, "executionId = ?", executionId);
     }
 
     @Override

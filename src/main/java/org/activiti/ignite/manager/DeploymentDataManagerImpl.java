@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class DeploymentDataManagerImpl extends AbstractDataManager<DeploymentEntity> implements DeploymentDataManager {
+public class DeploymentDataManagerImpl extends AbstractDataManager<DeploymentEntity, DeploymentEntityImpl> implements DeploymentDataManager {
 
     @Autowired
     @Qualifier("deploymentEntityCache")

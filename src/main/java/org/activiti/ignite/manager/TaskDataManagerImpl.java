@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class TaskDataManagerImpl extends AbstractDataManager<TaskEntity> implements TaskDataManager {
+public class TaskDataManagerImpl extends AbstractDataManager<TaskEntity, TaskEntityImpl> implements TaskDataManager {
 
     @Autowired
     @Qualifier("taskEntityCache")
@@ -38,20 +38,8 @@ public class TaskDataManagerImpl extends AbstractDataManager<TaskEntity> impleme
         return new TaskEntityImpl();
     }
 
-    public TaskEntity findById(String taskId, boolean checkCache) {
-        return findById(taskId);
-    }
-
     public List<TaskEntity> findTasksByExecutionId(String executionId) {
-        String query = "executionId = ?";
-
-        List<Cache.Entry<String, TaskEntityImpl>> list = getCache().query(new SqlQuery<String, TaskEntityImpl>(TaskEntityImpl.class, query).setArgs(executionId)).getAll();
-        List<TaskEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, TaskEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(TaskEntityImpl.class, "executionId = ?", executionId);
     }
 
     public List<TaskEntity> findTasksByProcessInstanceId(String processInstanceId) {
@@ -71,13 +59,9 @@ public class TaskDataManagerImpl extends AbstractDataManager<TaskEntity> impleme
             args.add(taskQuery.getProcessInstanceId());
         }
 
-        List<Cache.Entry<String, TaskEntityImpl>> list = getCache().query(new SqlQuery<String, TaskEntityImpl>(TaskEntityImpl.class, query).setArgs(args.toArray())).getAll();
-        List<Task> results = new ArrayList<>();
-        for (Cache.Entry<String, TaskEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
+        List<TaskEntity> list = findList(TaskEntityImpl.class, query, args.toArray());
 
-        return results;
+        return new ArrayList<>(list);
     }
 
     public List<Task> findTasksAndVariablesByQueryCriteria(TaskQueryImpl taskQuery) {
@@ -97,15 +81,7 @@ public class TaskDataManagerImpl extends AbstractDataManager<TaskEntity> impleme
     }
 
     public List<Task> findTasksByParentTaskId(String parentTaskId) {
-        String query = "parentTaskId = ?";
-
-        List<Cache.Entry<String, TaskEntityImpl>> list = getCache().query(new SqlQuery<String, TaskEntityImpl>(TaskEntityImpl.class, query).setArgs(parentTaskId)).getAll();
-        List<Task> results = new ArrayList<>();
-        for (Cache.Entry<String, TaskEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return new ArrayList<>(findList(TaskEntityImpl.class, "parentTaskId = ?", parentTaskId));
     }
 
     public void updateTaskTenantIdForDeployment(String deploymentId, String newTenantId) {

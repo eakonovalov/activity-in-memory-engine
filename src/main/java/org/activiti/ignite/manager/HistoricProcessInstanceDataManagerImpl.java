@@ -3,6 +3,7 @@ package org.activiti.ignite.manager;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.impl.HistoricProcessInstanceQueryImpl;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
+import org.activiti.engine.impl.persistence.entity.HistoricActivityInstanceEntityImpl;
 import org.activiti.engine.impl.persistence.entity.HistoricProcessInstanceEntity;
 import org.activiti.engine.impl.persistence.entity.HistoricProcessInstanceEntityImpl;
 import org.activiti.engine.impl.persistence.entity.data.HistoricProcessInstanceDataManager;
@@ -20,7 +21,7 @@ import java.util.Map;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class HistoricProcessInstanceDataManagerImpl extends AbstractDataManager<HistoricProcessInstanceEntity> implements HistoricProcessInstanceDataManager {
+public class HistoricProcessInstanceDataManagerImpl extends AbstractDataManager<HistoricProcessInstanceEntity, HistoricProcessInstanceEntityImpl> implements HistoricProcessInstanceDataManager {
 
     @Autowired
     @Qualifier("historicProcessInstanceEntityCache")
@@ -69,7 +70,7 @@ public class HistoricProcessInstanceDataManagerImpl extends AbstractDataManager<
 
         if (queryString.length() == 0) return getCache().size();
 
-        List<Cache.Entry<String, HistoricProcessInstanceEntityImpl>> list = getCache().query(new SqlQuery<String, HistoricProcessInstanceEntityImpl>(HistoricProcessInstanceEntityImpl.class, queryString).setArgs(args.toArray())).getAll();
+        List<HistoricProcessInstanceEntity> list = findList(HistoricProcessInstanceEntityImpl.class, queryString, args.toArray());
 
         return list.size();
     }

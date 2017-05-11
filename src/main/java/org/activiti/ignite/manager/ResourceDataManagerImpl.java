@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class ResourceDataManagerImpl extends AbstractDataManager<ResourceEntity> implements ResourceDataManager {
+public class ResourceDataManagerImpl extends AbstractDataManager<ResourceEntity, ResourceEntityImpl> implements ResourceDataManager {
 
     @Autowired
     @Qualifier("resourceEntityCache")
@@ -37,11 +37,11 @@ public class ResourceDataManagerImpl extends AbstractDataManager<ResourceEntity>
     }
 
     public ResourceEntity findResourceByDeploymentIdAndResourceName(String deploymentId, String resourceName) {
-        throw new UnsupportedOperationException();
+        return findOne(ResourceEntityImpl.class, "deploymentId = ? and name = ?", deploymentId, resourceName);
     }
 
     public List<ResourceEntity> findResourcesByDeploymentId(String deploymentId) {
-        throw new UnsupportedOperationException();
+        return findList(ResourceEntityImpl.class, "deploymentId = ?", deploymentId);
     }
 
 }

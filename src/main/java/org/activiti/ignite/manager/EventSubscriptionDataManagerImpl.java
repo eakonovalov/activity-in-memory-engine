@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class EventSubscriptionDataManagerImpl extends AbstractDataManager<EventSubscriptionEntity> implements EventSubscriptionDataManager {
+public class EventSubscriptionDataManagerImpl extends AbstractDataManager<EventSubscriptionEntity, EventSubscriptionEntityImpl> implements EventSubscriptionDataManager {
 
     @Autowired
     @Qualifier("eventSubscriptionEntityCache")
@@ -77,15 +77,7 @@ public class EventSubscriptionDataManagerImpl extends AbstractDataManager<EventS
     }
 
     public List<EventSubscriptionEntity> findEventSubscriptionsByExecution(String executionId) {
-        String query = "executionId = ?";
-
-        List<Cache.Entry<String, EventSubscriptionEntityImpl>> list = getCache().query(new SqlQuery<String, EventSubscriptionEntityImpl>(EventSubscriptionEntityImpl.class, query).setArgs(executionId)).getAll();
-        List<EventSubscriptionEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, EventSubscriptionEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(EventSubscriptionEntityImpl.class, "executionId = ?", executionId);
     }
 
     public List<EventSubscriptionEntity> findEventSubscriptionsByTypeAndProcessDefinitionId(String type, String processDefinitionId, String tenantId) {

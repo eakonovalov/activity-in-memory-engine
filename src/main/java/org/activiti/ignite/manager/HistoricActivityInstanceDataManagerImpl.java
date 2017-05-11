@@ -5,6 +5,7 @@ import org.activiti.engine.impl.HistoricActivityInstanceQueryImpl;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.persistence.entity.HistoricActivityInstanceEntity;
 import org.activiti.engine.impl.persistence.entity.HistoricActivityInstanceEntityImpl;
+import org.activiti.engine.impl.persistence.entity.HistoricTaskInstanceEntityImpl;
 import org.activiti.engine.impl.persistence.entity.data.HistoricActivityInstanceDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.cache.query.SqlQuery;
@@ -20,7 +21,7 @@ import java.util.Map;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class HistoricActivityInstanceDataManagerImpl extends AbstractDataManager<HistoricActivityInstanceEntity> implements HistoricActivityInstanceDataManager {
+public class HistoricActivityInstanceDataManagerImpl extends AbstractDataManager<HistoricActivityInstanceEntity, HistoricActivityInstanceEntityImpl> implements HistoricActivityInstanceDataManager {
 
     @Autowired
     @Qualifier("historicActivityInstanceEntityCache")
@@ -36,15 +37,7 @@ public class HistoricActivityInstanceDataManagerImpl extends AbstractDataManager
     }
 
     public List<HistoricActivityInstanceEntity> findUnfinishedHistoricActivityInstancesByExecutionAndActivityId(String executionId, String activityId) {
-        String query = "executionId = ? and activityId = ? and endTime = NULL";
-
-        List<Cache.Entry<String, HistoricActivityInstanceEntityImpl>> list = getCache().query(new SqlQuery<String, HistoricActivityInstanceEntityImpl>(HistoricActivityInstanceEntityImpl.class, query).setArgs(executionId, activityId)).getAll();
-        List<HistoricActivityInstanceEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, HistoricActivityInstanceEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(HistoricActivityInstanceEntityImpl.class, "executionId = ? and activityId = ? and endTime = NULL", executionId, activityId);
     }
 
     public List<HistoricActivityInstanceEntity> findUnfinishedHistoricActivityInstancesByProcessInstanceId(String processInstanceId) {

@@ -2,6 +2,7 @@ package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.ProcessDefinitionQueryImpl;
+import org.activiti.engine.impl.persistence.entity.JobEntityImpl;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntityImpl;
 import org.activiti.engine.impl.persistence.entity.data.ProcessDefinitionDataManager;
@@ -19,7 +20,7 @@ import java.util.Map;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class ProcessDefinitionDataManagerImpl extends AbstractDataManager<ProcessDefinitionEntity> implements ProcessDefinitionDataManager {
+public class ProcessDefinitionDataManagerImpl extends AbstractDataManager<ProcessDefinitionEntity, ProcessDefinitionEntityImpl> implements ProcessDefinitionDataManager {
 
     @Autowired
     @Qualifier("processDefinitionEntityCache")
@@ -39,13 +40,11 @@ public class ProcessDefinitionDataManagerImpl extends AbstractDataManager<Proces
     }
 
     public ProcessDefinitionEntity findLatestProcessDefinitionByKey(String processDefinitionKey) {
-        String query = "key = ?";
-
-        List<Cache.Entry<String, ProcessDefinitionEntityImpl>> list = getCache().query(new SqlQuery<String, ProcessDefinitionEntityImpl>(ProcessDefinitionEntityImpl.class, query).setArgs(processDefinitionKey)).getAll();
-        ProcessDefinitionEntityImpl result = null;
-        for (Cache.Entry<String, ProcessDefinitionEntityImpl> entry : list) {
-            if (result == null || result.getVersion() < entry.getValue().getVersion()) {
-                result = entry.getValue();
+        List<ProcessDefinitionEntity> list = findList(ProcessDefinitionEntityImpl.class, "key = ?", processDefinitionKey);
+        ProcessDefinitionEntity result = null;
+        for (ProcessDefinitionEntity e : list) {
+            if (result == null || result.getVersion() < e.getVersion()) {
+                result = e;
             }
         }
 
@@ -53,7 +52,15 @@ public class ProcessDefinitionDataManagerImpl extends AbstractDataManager<Proces
     }
 
     public ProcessDefinitionEntity findLatestProcessDefinitionByKeyAndTenantId(String processDefinitionKey, String tenantId) {
-        throw new UnsupportedOperationException();
+        List<ProcessDefinitionEntity> list = findList(ProcessDefinitionEntityImpl.class, "key = ? and tenantId = ?", processDefinitionKey, tenantId);
+        ProcessDefinitionEntity result = null;
+        for (ProcessDefinitionEntity e : list) {
+            if (result == null || result.getVersion() < e.getVersion()) {
+                result = e;
+            }
+        }
+
+        return result;
     }
 
     public void deleteProcessDefinitionsByDeploymentId(String deploymentId) {
@@ -69,19 +76,19 @@ public class ProcessDefinitionDataManagerImpl extends AbstractDataManager<Proces
     }
 
     public ProcessDefinitionEntity findProcessDefinitionByDeploymentAndKey(String deploymentId, String processDefinitionKey) {
-        throw new UnsupportedOperationException();
+        return findOne(ProcessDefinitionEntityImpl.class, "deploymentId = ? and key = ?", deploymentId, processDefinitionKey);
     }
 
     public ProcessDefinitionEntity findProcessDefinitionByDeploymentAndKeyAndTenantId(String deploymentId, String processDefinitionKey, String tenantId) {
-        throw new UnsupportedOperationException();
+        return findOne(ProcessDefinitionEntityImpl.class, "deploymentId = ? and key = ? and tenantId = ?", deploymentId, processDefinitionKey, tenantId);
     }
 
     public ProcessDefinitionEntity findProcessDefinitionByKeyAndVersion(String processDefinitionKey, Integer processDefinitionVersion) {
-        throw new UnsupportedOperationException();
+        return findOne(ProcessDefinitionEntityImpl.class, "key = ? and version = ?", processDefinitionKey, processDefinitionVersion);
     }
 
     public ProcessDefinitionEntity findProcessDefinitionByKeyAndVersionAndTenantId(String processDefinitionKey, Integer processDefinitionVersion, String tenantId) {
-        throw new UnsupportedOperationException();
+        return findOne(ProcessDefinitionEntityImpl.class, "key = ? and version = ? and tenantId = ?", processDefinitionKey, processDefinitionVersion, tenantId);
     }
 
     public List<ProcessDefinition> findProcessDefinitionsByNativeQuery(Map<String, Object> parameterMap, int firstResult, int maxResults) {

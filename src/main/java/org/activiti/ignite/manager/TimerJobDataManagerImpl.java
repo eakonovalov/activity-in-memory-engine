@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class TimerJobDataManagerImpl extends AbstractDataManager<TimerJobEntity> implements TimerJobDataManager {
+public class TimerJobDataManagerImpl extends AbstractDataManager<TimerJobEntity, TimerJobEntityImpl> implements TimerJobDataManager {
 
     @Autowired
     @Qualifier("timerJobEntityCache")
@@ -46,41 +46,17 @@ public class TimerJobDataManagerImpl extends AbstractDataManager<TimerJobEntity>
 
     @Override
     public List<TimerJobEntity> findJobsByTypeAndProcessDefinitionKeyAndTenantId(String type, String processDefinitionKey, String tenantId) {
-        String query = "processDefinitionId = ? and jobType = ? and tenantId = ?";
-
-        List<Cache.Entry<String, TimerJobEntityImpl>> list = getCache().query(new SqlQuery<String, TimerJobEntityImpl>(TimerJobEntityImpl.class, query).setArgs(type, processDefinitionKey, tenantId)).getAll();
-        List<TimerJobEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, TimerJobEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(TimerJobEntityImpl.class, "processDefinitionId = ? and jobType = ? and tenantId = ?", type, processDefinitionKey, tenantId);
     }
 
     @Override
     public List<TimerJobEntity> findJobsByTypeAndProcessDefinitionKeyNoTenantId(String type, String processDefinitionKey) {
-        String query = "processDefinitionId = ? and jobType = ? and tenantId = NULL";
-
-        List<Cache.Entry<String, TimerJobEntityImpl>> list = getCache().query(new SqlQuery<String, TimerJobEntityImpl>(TimerJobEntityImpl.class, query).setArgs(type, processDefinitionKey)).getAll();
-        List<TimerJobEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, TimerJobEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(TimerJobEntityImpl.class, "processDefinitionId = ? and jobType = ? and tenantId = NULL", type, processDefinitionKey);
     }
 
     @Override
     public List<TimerJobEntity> findJobsByExecutionId(String executionId) {
-        String query = "executionId = ?";
-
-        List<Cache.Entry<String, TimerJobEntityImpl>> list = getCache().query(new SqlQuery<String, TimerJobEntityImpl>(TimerJobEntityImpl.class, query).setArgs(executionId)).getAll();
-        List<TimerJobEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, TimerJobEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(TimerJobEntityImpl.class, "executionId = ?", executionId);
     }
 
     @Override

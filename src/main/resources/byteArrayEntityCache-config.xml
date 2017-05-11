@@ -3,18 +3,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="resourceEntityCache" class="org.apache.ignite.configuration.CacheConfiguration">
-        <property name="name" value="resourceEntityCache"/>
+    <bean id="byteArrayEntityCache" class="org.apache.ignite.configuration.CacheConfiguration">
+        <property name="name" value="byteArrayEntityCache"/>
         <property name="queryEntities">
             <list>
                 <bean class="org.apache.ignite.cache.QueryEntity">
                     <property name="keyType" value="java.lang.String"/>
-                    <property name="valueType" value="org.activiti.engine.impl.persistence.entity.ResourceEntityImpl"/>
+                    <property name="valueType" value="org.activiti.engine.impl.persistence.entity.ByteArrayEntityImpl"/>
                     <property name="fields">
                         <map>
                             <entry key="id" value="java.lang.String"/>
-                            <entry key="deploymentId" value="java.lang.String"/>
-                            <entry key="name" value="java.lang.String"/>
                         </map>
                     </property>
                     <property name="indexes">
@@ -22,17 +20,10 @@
                             <bean class="org.apache.ignite.cache.QueryIndex">
                                 <constructor-arg value="id"/>
                             </bean>
-                            <bean class="org.apache.ignite.cache.QueryIndex">
-                                <constructor-arg value="deploymentId"/>
-                            </bean>
-                            <bean class="org.apache.ignite.cache.QueryIndex">
-                                <constructor-arg value="name"/>
-                            </bean>
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
-
 </beans>

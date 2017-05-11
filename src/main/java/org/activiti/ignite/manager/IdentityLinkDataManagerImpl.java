@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by ekonovalov on 26.04.2017.
  */
-public class IdentityLinkDataManagerImpl extends AbstractDataManager<IdentityLinkEntity> implements IdentityLinkDataManager {
+public class IdentityLinkDataManagerImpl extends AbstractDataManager<IdentityLinkEntity, IdentityLinkEntityImpl> implements IdentityLinkDataManager {
 
     @Autowired
     @Qualifier("identityLinkEntityCache")
@@ -36,27 +36,11 @@ public class IdentityLinkDataManagerImpl extends AbstractDataManager<IdentityLin
     }
 
     public List<IdentityLinkEntity> findIdentityLinksByTaskId(String taskId) {
-        String query = "taskId = ?";
-
-        List<Cache.Entry<String, IdentityLinkEntityImpl>> list = getCache().query(new SqlQuery<String, IdentityLinkEntityImpl>(IdentityLinkEntityImpl.class, query).setArgs(taskId)).getAll();
-        List<IdentityLinkEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, IdentityLinkEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(IdentityLinkEntityImpl.class, "taskId = ?", taskId);
     }
 
     public List<IdentityLinkEntity> findIdentityLinksByProcessInstanceId(String processInstanceId) {
-        String query = "processInstanceId = ?";
-
-        List<Cache.Entry<String, IdentityLinkEntityImpl>> list = getCache().query(new SqlQuery<String, IdentityLinkEntityImpl>(IdentityLinkEntityImpl.class, query).setArgs(processInstanceId)).getAll();
-        List<IdentityLinkEntity> results = new ArrayList<>();
-        for (Cache.Entry<String, IdentityLinkEntityImpl> entry : list) {
-            results.add(entry.getValue());
-        }
-
-        return results;
+        return findList(IdentityLinkEntityImpl.class, "processInstanceId = ?", processInstanceId);
     }
 
     public List<IdentityLinkEntity> findIdentityLinksByProcessDefinitionId(String processDefinitionId) {
