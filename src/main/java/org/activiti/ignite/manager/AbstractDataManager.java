@@ -10,7 +10,9 @@ import org.apache.ignite.configuration.CacheConfiguration;
 
 import javax.cache.Cache;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by ekonovalov on 26.04.2017.
@@ -100,6 +102,13 @@ public abstract class AbstractDataManager<E extends Entity, I extends E> extends
         getCache().forEach(e -> result.add(e.getValue()));
 
         return result;
+    }
+
+    public void removeList(Class<I> clazz, String query, Object... args) {
+        List<E> list = findList(clazz, query, args);
+        Set<String> keys = new HashSet<>();
+        list.forEach(c -> keys.add(c.getId()));
+        getCache().removeAll(keys);
     }
 
 }

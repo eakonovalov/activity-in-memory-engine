@@ -25,6 +25,7 @@
     <import resource="propertyEntityCache-config.xml"/>
     <import resource="attachmentEntityCache-cache.xml"/>
     <import resource="byteArrayEntityCache-config.xml"/>
+    <import resource="commentEntityCache-config.xml"/>
 
     <bean id="config" class="org.activiti.ignite.IgniteProcessEngineConfiguration"/>
 
@@ -86,6 +87,9 @@
         <constructor-arg ref="config"/>
     </bean>
     <bean id="byteArrayDataManager" class="org.activiti.ignite.manager.ByteArrayDataManagerImpl">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="commentDataManager" class="org.activiti.ignite.manager.CommentDataManagerImpl">
         <constructor-arg ref="config"/>
     </bean>
 

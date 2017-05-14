@@ -151,4 +151,10 @@ public class IgniteProcessEngineConfiguration extends ProcessEngineConfiguration
         return super.setByteArrayDataManager(byteArrayDataManager);
     }
 
+    @Override
+    @Autowired
+    public ProcessEngineConfigurationImpl setCommentDataManager(CommentDataManager commentDataManager) {
+        return super.setCommentDataManager(commentDataManager);
+    }
+
 }
