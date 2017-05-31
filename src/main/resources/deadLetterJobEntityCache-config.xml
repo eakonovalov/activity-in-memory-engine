@@ -15,6 +15,13 @@
                         <map>
                             <entry key="id" value="java.lang.String"/>
                             <entry key="executionId" value="java.lang.String"/>
+                            <entry key="processInstanceId" value="java.lang.String"/>
+                            <entry key="processDefinitionId" value="java.lang.String"/>
+                            <entry key="jobType" value="java.util.String"/>
+                            <entry key="duedate" value="java.util.Date"/>
+                            <entry key="exceptionMessage" value="java.util.String"/>
+                            <entry key="exceptionByteArrayRef" value="org.activiti.engine.impl.persistence.entity.ByteArrayEntity"/>
+                            <entry key="tenantId" value="java.util.String"/>
                         </map>
                     </property>
                     <property name="indexes">

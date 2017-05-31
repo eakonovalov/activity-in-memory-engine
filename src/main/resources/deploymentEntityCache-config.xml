@@ -14,6 +14,8 @@
                     <property name="fields">
                         <map>
                             <entry key="id" value="java.lang.String"/>
+                            <entry key="name" value="java.lang.String"/>
+                            <entry key="category" value="java.lang.String"/>
                             <entry key="executionId" value="java.lang.String"/>
                         </map>
                     </property>

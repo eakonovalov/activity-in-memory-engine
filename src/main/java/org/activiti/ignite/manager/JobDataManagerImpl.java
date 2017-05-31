@@ -46,6 +46,16 @@ public class JobDataManagerImpl extends AbstractDataManager<JobEntity, JobEntity
         return findList(JobEntityImpl.class, "executionId = ?", executionId);
     }
 
+    @Override
+    public List<JobEntity> findJobsByProcessDefinitionId(String processDefinitionId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<JobEntity> findJobsByTypeAndProcessDefinitionId(String jobTypeTimer, String id) {
+        throw new UnsupportedOperationException();
+    }
+
     public List<JobEntity> findJobsByProcessInstanceId(String processInstanceId) {
         throw new UnsupportedOperationException();
     }

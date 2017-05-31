@@ -60,11 +60,11 @@ public class HistoricProcessInstanceDataManagerImpl extends AbstractDataManager<
             args.add(historicProcessInstanceQuery.getProcessInstanceId());
         }
         if (historicProcessInstanceQuery.isFinished()) {
-            queryString += queryString.length() == 0 ? "" : " or ";
+            queryString += queryString.length() == 0 ? "" : " AND ";
             queryString += "endTime IS NOT NULL";
         }
         if (historicProcessInstanceQuery.isUnfinished()) {
-            queryString += queryString.length() == 0 ? "" : " or ";
+            queryString += queryString.length() == 0 ? "" : " AND ";
             queryString += "endTime IS NULL";
         }
 
