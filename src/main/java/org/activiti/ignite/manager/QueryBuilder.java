@@ -9,9 +9,18 @@ import java.util.List;
  */
 public class QueryBuilder {
 
+    private String selectClause;
     private String fromClause;
     private StringBuilder conditions = new StringBuilder();
     private List<Object> args = new ArrayList<>();
+
+    public String getSelectClause() {
+        return selectClause;
+    }
+
+    public void setSelectClause(String selectClause) {
+        this.selectClause = selectClause;
+    }
 
     public String getFromClause() {
         return fromClause;
@@ -35,6 +44,21 @@ public class QueryBuilder {
 
     public void appendArgs(Object... args) {
         Collections.addAll(this.args, args);
+    }
+
+    public String getQuery() {
+        StringBuilder query = new StringBuilder();
+        if(selectClause != null) {
+            query.append("SELECT ").append(selectClause);
+        }
+        if(fromClause != null) {
+            query.append(" FROM ").append(fromClause);
+        }
+        if(conditions.length() > 0) {
+            query.append(" WHERE ").append(conditions.toString());
+        }
+
+        return query.toString();
     }
 
 }

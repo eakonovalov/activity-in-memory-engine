@@ -7,6 +7,7 @@ import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.persistence.entity.DeadLetterJobEntity;
 import org.activiti.engine.impl.persistence.entity.DeadLetterJobEntityImpl;
+import org.activiti.engine.runtime.Job;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.Ignition;
@@ -18,6 +19,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -27,7 +29,7 @@ import static org.junit.Assert.*;
 public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
-    public void findJobCountById() throws Exception {
+    public void findJobByQueryCriteriaId() throws Exception {
         DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
         String id1 = config.getIdGenerator().getNextId();
         entity1.setId(id1);
@@ -37,6 +39,10 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
         String id2 = config.getIdGenerator().getNextId();
         entity2.setId(id2);
         config.getDeadLetterJobDataManager().insert(entity2);
+
+        List<Job> jobs = config.getDeadLetterJobDataManager().findJobsByQueryCriteria((DeadLetterJobQueryImpl) processEngine.getManagementService().createDeadLetterJobQuery().jobId(id1), null);
+        assertTrue(jobs.size() == 1);
+        assertTrue(jobs.get(0) instanceof DeadLetterJobEntityImpl);
 
         long count = config.getDeadLetterJobDataManager().findJobCountByQueryCriteria((DeadLetterJobQueryImpl) processEngine.getManagementService().createDeadLetterJobQuery().jobId(id1));
         assertTrue(count == 1);
@@ -84,7 +90,7 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
     }
 
     @Test
-    public void findJobCountProcessDefinitionId() throws Exception {
+    public void findJobCountByProcessDefinitionId() throws Exception {
         DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
         String id1 = config.getIdGenerator().getNextId();
         entity1.setProcessDefinitionId(id1);
@@ -103,7 +109,7 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
     }
 
     @Test
-    public void findJobCountExecutable() throws Exception {
+    public void findJobCountByExecutable() throws Exception {
         DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
         config.getDeadLetterJobDataManager().insert(entity1);
 
@@ -146,7 +152,7 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
 */
 
     @Test
-    public void findJobCountDuedate() throws Exception {
+    public void findJobCountByDuedate() throws Exception {
         DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
         config.getDeadLetterJobDataManager().insert(entity1);
 
@@ -192,7 +198,7 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
     }
 
     @Test
-    public void findJobCountTenantId() throws Exception {
+    public void findJobCountByTenantId() throws Exception {
         DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
         String id1 = config.getIdGenerator().getNextId();
         entity1.setTenantId(id1);

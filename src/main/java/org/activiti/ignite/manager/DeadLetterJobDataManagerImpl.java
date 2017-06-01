@@ -7,12 +7,18 @@ import org.activiti.engine.impl.persistence.entity.DeadLetterJobEntityImpl;
 import org.activiti.engine.impl.persistence.entity.data.DeadLetterJobDataManager;
 import org.activiti.engine.runtime.Job;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
+import org.apache.ignite.cache.CacheEntry;
+import org.apache.ignite.cache.query.QueryCursor;
 import org.apache.ignite.cache.query.SqlFieldsQuery;
+import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import javax.cache.Cache;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -45,14 +51,26 @@ public class DeadLetterJobDataManagerImpl extends AbstractDataManager<DeadLetter
 
     @Override
     public List<Job> findJobsByQueryCriteria(DeadLetterJobQueryImpl jobQuery, Page page) {
-        throw new UnsupportedOperationException();
+        QueryBuilder queryBuilder = getQueryBuilder(jobQuery);
+        queryBuilder.setSelectClause("*");
+        queryBuilder.setFromClause("DeadLetterJobEntityImpl");
+        SqlQuery<String, DeadLetterJobEntityImpl> qry = new SqlQuery(DeadLetterJobEntityImpl.class, queryBuilder.getQuery()).setArgs(queryBuilder.getArgs().toArray());
+        Iterator<Cache.Entry<String, DeadLetterJobEntityImpl>> itr = getCache().query(qry).iterator();
+        List<Job> result = new ArrayList<>();
+        while (itr.hasNext()) {
+            Cache.Entry<String, DeadLetterJobEntityImpl> o = itr.next();
+            result.add(o.getValue());
+        }
+
+        return result;
     }
 
     @Override
     public long findJobCountByQueryCriteria(DeadLetterJobQueryImpl jobQuery) {
         QueryBuilder queryBuilder = getQueryBuilder(jobQuery);
-        String queryString = "SELECT COUNT(*) FROM DeadLetterJobEntityImpl WHERE " + queryBuilder.getConditions();
-        SqlFieldsQuery qry = new SqlFieldsQuery(queryString).setArgs(queryBuilder.getArgs().toArray());
+        queryBuilder.setSelectClause("COUNT(*)");
+        queryBuilder.setFromClause("DeadLetterJobEntityImpl");
+        SqlFieldsQuery qry = new SqlFieldsQuery(queryBuilder.getQuery()).setArgs(queryBuilder.getArgs().toArray());
         Collection<List<?>> res = getCache().query(qry).getAll();
 
         return (Long) res.iterator().next().get(0);
