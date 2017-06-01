@@ -57,6 +57,25 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
     }
 
     @Test
+    public void findDeploymentCountByNameLike() throws Exception {
+        DeploymentEntity entity1 = new DeploymentEntityImpl();
+        String id1 = config.getIdGenerator().getNextId();
+        entity1.setName(id1);
+        config.getDeploymentDataManager().insert(entity1);
+
+        DeploymentEntity entity2 = new DeploymentEntityImpl();
+        String id2 = config.getIdGenerator().getNextId();
+        entity1.setName(id2);
+        config.getDeploymentDataManager().insert(entity2);
+
+        long count = config.getDeploymentDataManager().findDeploymentCountByQueryCriteria((DeploymentQueryImpl) processEngine.getRepositoryService().createDeploymentQuery().deploymentNameLike(id1.substring(3)));
+        assertTrue(count == 1);
+
+        config.getDeploymentDataManager().delete(entity1);
+        config.getDeploymentDataManager().delete(entity2);
+    }
+
+    @Test
     public void findDeploymentCountByProcessDefinitionKey() throws Exception {
         DeploymentEntity entity1 = new DeploymentEntityImpl();
         String id1 = config.getIdGenerator().getNextId();

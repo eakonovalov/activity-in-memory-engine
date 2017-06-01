@@ -115,7 +115,7 @@ public class DeadLetterJobDataManagerImpl extends AbstractDataManager<DeadLetter
             result.appendArgs(jobQuery.getTenantId());
         }
         if (jobQuery.getTenantIdLike() != null) {
-            result.appendCondition("tenantId = %" + jobQuery.getTenantIdLike() + "%");
+            result.appendCondition("tenantId LIKE '%" + jobQuery.getTenantIdLike() + "%'");
         }
         if (jobQuery.isWithoutTenantId()) {
             result.appendCondition("(tenantId = '' OR tenantId IS NULL)");

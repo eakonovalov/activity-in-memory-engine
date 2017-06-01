@@ -70,7 +70,7 @@ public class DeploymentDataManagerImpl extends AbstractDataManager<DeploymentEnt
             result.appendArgs(deploymentQuery.getName());
         }
         if (deploymentQuery.getNameLike() != null) {
-            result.appendCondition("d.name = %" + deploymentQuery.getNameLike() + "%");
+            result.appendCondition("d.name LIKE '%" + deploymentQuery.getNameLike() + "%'");
         }
         if (deploymentQuery.getCategory() != null) {
             result.appendCondition("d.category = ?");
@@ -85,7 +85,7 @@ public class DeploymentDataManagerImpl extends AbstractDataManager<DeploymentEnt
             result.appendArgs(deploymentQuery.getProcessDefinitionKey());
         }
         if (deploymentQuery.getProcessDefinitionKeyLike() != null) {
-            result.appendCondition("pd.key = %" + deploymentQuery.getProcessDefinitionKeyLike() + "%");
+            result.appendCondition("pd.key LIKE '%" + deploymentQuery.getProcessDefinitionKeyLike() + "%'");
         }
         if (deploymentQuery.getTenantId() != null) {
             result.appendCondition("d.tenantId = ?");
