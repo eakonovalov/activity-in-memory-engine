@@ -87,6 +87,16 @@ public class DeploymentDataManagerImpl extends AbstractDataManager<DeploymentEnt
         if (deploymentQuery.getProcessDefinitionKeyLike() != null) {
             result.appendCondition("pd.key = %" + deploymentQuery.getProcessDefinitionKeyLike() + "%");
         }
+        if (deploymentQuery.getTenantId() != null) {
+            result.appendCondition("d.tenantId = ?");
+            result.appendArgs(deploymentQuery.getTenantId());
+        }
+        if (deploymentQuery.getTenantIdLike() != null) {
+            result.appendCondition("d.tenantId = %" + deploymentQuery.getTenantIdLike() + "%");
+        }
+        if (deploymentQuery.isWithoutTenantId()) {
+            result.appendCondition("(d.tenantId = '' OR d.tenantId IS NULL)");
+        }
 
         return result;
     }

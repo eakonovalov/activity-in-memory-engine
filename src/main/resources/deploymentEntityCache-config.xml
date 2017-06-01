@@ -17,6 +17,7 @@
                             <entry key="name" value="java.lang.String"/>
                             <entry key="category" value="java.lang.String"/>
                             <entry key="executionId" value="java.lang.String"/>
+                            <entry key="tenantId" value="java.lang.String"/>
                         </map>
                     </property>
                     <property name="indexes">
