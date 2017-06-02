@@ -53,13 +53,13 @@ public class DeadLetterJobDataManagerImpl extends AbstractDataManager<DeadLetter
     public List<Job> findJobsByQueryCriteria(DeadLetterJobQueryImpl jobQuery, Page page) {
         QueryBuilder queryBuilder = getQueryBuilder(jobQuery);
         queryBuilder.setSelectClause("*");
-        queryBuilder.setFromClause("DeadLetterJobEntityImpl");
-        SqlQuery<String, DeadLetterJobEntityImpl> qry = new SqlQuery(DeadLetterJobEntityImpl.class, queryBuilder.getQuery()).setArgs(queryBuilder.getArgs().toArray());
-        Iterator<Cache.Entry<String, DeadLetterJobEntityImpl>> itr = getCache().query(qry).iterator();
+        queryBuilder.setFromClause("DeadLetterJobEntityImpl d");
+        SqlFieldsQuery qry = new SqlFieldsQuery(queryBuilder.getQuery()).setArgs(queryBuilder.getArgs().toArray());
+        Iterator<List<?>> itr = getCache().query(qry).iterator();
         List<Job> result = new ArrayList<>();
         while (itr.hasNext()) {
-            Cache.Entry<String, DeadLetterJobEntityImpl> o = itr.next();
-            result.add(o.getValue());
+            List<?> o = itr.next();
+            result.add((Job) o.get(1));
         }
 
         return result;
@@ -69,7 +69,7 @@ public class DeadLetterJobDataManagerImpl extends AbstractDataManager<DeadLetter
     public long findJobCountByQueryCriteria(DeadLetterJobQueryImpl jobQuery) {
         QueryBuilder queryBuilder = getQueryBuilder(jobQuery);
         queryBuilder.setSelectClause("COUNT(*)");
-        queryBuilder.setFromClause("DeadLetterJobEntityImpl");
+        queryBuilder.setFromClause("DeadLetterJobEntityImpl d");
         SqlFieldsQuery qry = new SqlFieldsQuery(queryBuilder.getQuery()).setArgs(queryBuilder.getArgs().toArray());
         Collection<List<?>> res = getCache().query(qry).getAll();
 
@@ -79,64 +79,64 @@ public class DeadLetterJobDataManagerImpl extends AbstractDataManager<DeadLetter
     private QueryBuilder getQueryBuilder(DeadLetterJobQueryImpl jobQuery) {
         QueryBuilder result = new QueryBuilder();
         if (jobQuery.getId() != null) {
-            result.appendCondition("id = ?");
+            result.appendCondition("d.id = ?");
             result.appendArgs(jobQuery.getId());
         }
         if (jobQuery.getProcessInstanceId() != null) {
-            result.appendCondition("processInstanceId = ?");
+            result.appendCondition("d.processInstanceId = ?");
             result.appendArgs(jobQuery.getProcessInstanceId());
         }
         if (jobQuery.getExecutionId() != null) {
-            result.appendCondition("executionId = ?");
+            result.appendCondition("d.executionId = ?");
             result.appendArgs(jobQuery.getExecutionId());
         }
         if (jobQuery.getProcessDefinitionId() != null) {
-            result.appendCondition("processDefinitionId = ?");
+            result.appendCondition("d.processDefinitionId = ?");
             result.appendArgs(jobQuery.getProcessDefinitionId());
         }
         if (jobQuery.getExecutable()) {
-            result.appendCondition("(duedate IS NULL OR duedate <= NOW())");
+            result.appendCondition("(d.duedate IS NULL OR d.duedate <= NOW())");
         }
         if (jobQuery.isOnlyTimers()) {
-            result.appendCondition("jobType = ?");
+            result.appendCondition("d.jobType = ?");
             result.appendArgs("timer");
         }
         if (jobQuery.isOnlyMessages()) {
-            result.appendCondition("jobType = ?");
+            result.appendCondition("d.jobType = ?");
             result.appendArgs("message");
         }
         if (jobQuery.getDuedateHigherThan() != null) {
-            result.appendCondition("duedate > ?");
+            result.appendCondition("d.duedate > ?");
             result.appendArgs(jobQuery.getDuedateHigherThan());
         }
         if (jobQuery.getDuedateLowerThan() != null) {
-            result.appendCondition("duedate < ?");
+            result.appendCondition("d.duedate < ?");
             result.appendArgs(jobQuery.getDuedateLowerThan());
         }
         if (jobQuery.getDuedateHigherThanOrEqual() != null) {
-            result.appendCondition("duedate >= ?");
+            result.appendCondition("d.duedate >= ?");
             result.appendArgs(jobQuery.getDuedateHigherThanOrEqual());
         }
         if (jobQuery.getDuedateLowerThanOrEqual() != null) {
-            result.appendCondition("duedate <= ?");
+            result.appendCondition("d.duedate <= ?");
             result.appendArgs(jobQuery.getDuedateLowerThanOrEqual());
         }
         if (jobQuery.isWithException()) {
-            result.appendCondition("(exceptionMessage IS NOT NULL OR exceptionByteArrayRef IS NOT NULL)");
+            result.appendCondition("(d.exceptionMessage IS NOT NULL OR d.exceptionByteArrayRef IS NOT NULL)");
         }
         if (jobQuery.getExceptionMessage() != null) {
-            result.appendCondition("exceptionMessage = ?");
+            result.appendCondition("d.exceptionMessage = ?");
             result.appendArgs(jobQuery.getExceptionMessage());
         }
         if (jobQuery.getTenantId() != null) {
-            result.appendCondition("tenantId = ?");
+            result.appendCondition("d.tenantId = ?");
             result.appendArgs(jobQuery.getTenantId());
         }
         if (jobQuery.getTenantIdLike() != null) {
-            result.appendCondition("tenantId LIKE '%" + jobQuery.getTenantIdLike() + "%'");
+            result.appendCondition("d.tenantId LIKE '%" + jobQuery.getTenantIdLike() + "%'");
         }
         if (jobQuery.isWithoutTenantId()) {
-            result.appendCondition("(tenantId = '' OR tenantId IS NULL)");
+            result.appendCondition("(d.tenantId = '' OR d.tenantId IS NULL)");
         }
 
         return result;
