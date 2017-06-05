@@ -16,11 +16,11 @@
                             <entry key="executionId" value="java.lang.String"/>
                             <entry key="processInstanceId" value="java.lang.String"/>
                             <entry key="processDefinitionId" value="java.lang.String"/>
-                            <entry key="jobType" value="java.util.String"/>
+                            <entry key="jobType" value="java.lang.String"/>
                             <entry key="duedate" value="java.util.Date"/>
-                            <entry key="exceptionMessage" value="java.util.String"/>
+                            <entry key="tenantId" value="java.lang.String"/>
+                            <entry key="exceptionMessage" value="java.lang.String"/>
                             <entry key="exceptionByteArrayRef" value="org.activiti.engine.impl.persistence.entity.ByteArrayEntity"/>
-                            <entry key="tenantId" value="java.util.String"/>
                         </map>
                     </property>
                     <property name="indexes">
@@ -30,6 +30,18 @@
                             </bean>
                             <bean class="org.apache.ignite.cache.QueryIndex">
                                 <constructor-arg value="executionId"/>
+                            </bean>
+                            <bean class="org.apache.ignite.cache.QueryIndex">
+                                <constructor-arg value="processInstanceId"/>
+                            </bean>
+                            <bean class="org.apache.ignite.cache.QueryIndex">
+                                <constructor-arg value="processDefinitionId"/>
+                            </bean>
+                            <bean class="org.apache.ignite.cache.QueryIndex">
+                                <constructor-arg value="jobType"/>
+                            </bean>
+                            <bean class="org.apache.ignite.cache.QueryIndex">
+                                <constructor-arg value="tenantId"/>
                             </bean>
                         </list>
                     </property>

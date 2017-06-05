@@ -1,21 +1,11 @@
 package org.activiti.ignite.manager;
 
-import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.impl.DeploymentQueryImpl;
-import org.activiti.engine.impl.context.Context;
-import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.persistence.entity.DeploymentEntity;
 import org.activiti.engine.impl.persistence.entity.DeploymentEntityImpl;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntityImpl;
-import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.apache.ignite.Ignite;
-import org.apache.ignite.Ignition;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import static org.junit.Assert.*;
 
@@ -25,7 +15,7 @@ import static org.junit.Assert.*;
 public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
-    public void findDeploymentCountById() throws Exception {
+    public void findDeploymentByIdQueryCriteria() throws Exception {
         DeploymentEntity entity1 = new DeploymentEntityImpl();
         String id1 = config.getIdGenerator().getNextId();
         entity1.setId(id1);
@@ -38,7 +28,7 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
     }
 
     @Test
-    public void findDeploymentCountByName() throws Exception {
+    public void findDeploymentByNameQueryCriteria() throws Exception {
         DeploymentEntity entity1 = new DeploymentEntityImpl();
         String id1 = config.getIdGenerator().getNextId();
         entity1.setName(id1);
@@ -57,7 +47,7 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
     }
 
     @Test
-    public void findDeploymentCountByNameLike() throws Exception {
+    public void findDeploymentByNameLikeQueryCriteria() throws Exception {
         DeploymentEntity entity1 = new DeploymentEntityImpl();
         String id1 = config.getIdGenerator().getNextId();
         entity1.setName(id1);
@@ -76,7 +66,7 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
     }
 
     @Test
-    public void findDeploymentCountByProcessDefinitionKey() throws Exception {
+    public void findDeploymentByProcessDefinitionKeyQueryCriteria() throws Exception {
         DeploymentEntity entity1 = new DeploymentEntityImpl();
         String id1 = config.getIdGenerator().getNextId();
         entity1.setId(id1);
