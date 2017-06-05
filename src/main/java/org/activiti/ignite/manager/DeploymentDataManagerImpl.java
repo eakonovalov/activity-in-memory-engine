@@ -12,9 +12,7 @@ import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ekonovalov on 26.04.2017.
@@ -41,25 +39,35 @@ public class DeploymentDataManagerImpl extends AbstractDataManager<DeploymentEnt
 
     public long findDeploymentCountByQueryCriteria(DeploymentQueryImpl deploymentQuery) {
         QueryBuilder queryBuilder = getQueryBuilder(deploymentQuery);
-        String queryString = "SELECT COUNT(*) " + queryBuilder.getFromClause() + " WHERE " + queryBuilder.getConditions();
-        SqlFieldsQuery qry = new SqlFieldsQuery(queryString).setArgs(queryBuilder.getArgs().toArray());
+        queryBuilder.setSelectClause("COUNT(*)");
+        SqlFieldsQuery qry = new SqlFieldsQuery(queryBuilder.getQuery()).setArgs(queryBuilder.getArgs().toArray());
         Collection<List<?>> res = getCache().query(qry).getAll();
 
         return (Long) res.iterator().next().get(0);
     }
 
     public List<Deployment> findDeploymentsByQueryCriteria(DeploymentQueryImpl deploymentQuery, Page page) {
-        throw new UnsupportedOperationException();
+        QueryBuilder queryBuilder = getQueryBuilder(deploymentQuery);
+        queryBuilder.setSelectClause("*");
+        SqlFieldsQuery qry = new SqlFieldsQuery(queryBuilder.getQuery()).setArgs(queryBuilder.getArgs().toArray());
+        Iterator<List<?>> itr = getCache().query(qry).iterator();
+        List<Deployment> result = new ArrayList<>();
+        while (itr.hasNext()) {
+            List<?> o = itr.next();
+            result.add((Deployment) o.get(1));
+        }
+
+        return result;
     }
 
     private QueryBuilder getQueryBuilder(DeploymentQueryImpl deploymentQuery) {
         QueryBuilder result = new QueryBuilder();
         if(deploymentQuery.getProcessDefinitionKey() != null || deploymentQuery.getProcessDefinitionKeyLike() != null) {
-            result.setFromClause("FROM DeploymentEntityImpl d, \"processDefinitionEntityCache\".ProcessDefinitionEntityImpl pd");
+            result.setFromClause("DeploymentEntityImpl d, \"processDefinitionEntityCache\".ProcessDefinitionEntityImpl pd");
             result.appendCondition("d.id = pd.deploymentId");
         }
         else {
-            result.setFromClause("FROM DeploymentEntityImpl d");
+            result.setFromClause("DeploymentEntityImpl d");
         }
         if (deploymentQuery.getDeploymentId() != null) {
             result.appendCondition("d.id = ?");
