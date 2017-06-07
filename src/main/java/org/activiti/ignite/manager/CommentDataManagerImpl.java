@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.activiti.engine.impl.persistence.entity.CommentEntity.TYPE_EVENT;
+
 /**
  * Created by ekonovalov on 15.05.2017.
  */
@@ -53,12 +55,12 @@ public class CommentDataManagerImpl extends AbstractDataManager<CommentEntity, C
 
     @Override
     public List<Event> findEventsByTaskId(String taskId) {
-        return new ArrayList<>(findList(CommentEntityImpl.class, "taskId = ?", taskId));
+        return new ArrayList<>(findList(CommentEntityImpl.class, "taskId = ? AND type = '" + TYPE_EVENT + "'", taskId));
     }
 
     @Override
     public List<Event> findEventsByProcessInstanceId(String processInstanceId) {
-        return new ArrayList<>(findList(CommentEntityImpl.class, "processInstanceId = ?", processInstanceId));
+        return new ArrayList<>(findList(CommentEntityImpl.class, "processInstanceId = ? AND type = '" + TYPE_EVENT + "'", processInstanceId));
     }
 
     @Override

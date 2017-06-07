@@ -4,6 +4,7 @@ import org.activiti.engine.impl.DeploymentQueryImpl;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.persistence.entity.DeploymentEntity;
 import org.activiti.engine.impl.persistence.entity.DeploymentEntityImpl;
+import org.activiti.engine.impl.persistence.entity.ResourceEntity;
 import org.activiti.engine.impl.persistence.entity.data.DeploymentDataManager;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
@@ -86,7 +87,7 @@ public class DeploymentDataManagerImpl extends AbstractDataManager<DeploymentEnt
         }
         if (deploymentQuery.getCategoryNotEquals() != null) {
             result.appendCondition("d.category <> ?");
-            result.appendArgs(deploymentQuery.getCategory());
+            result.appendArgs(deploymentQuery.getCategoryNotEquals());
         }
         if (deploymentQuery.getProcessDefinitionKey() != null) {
             result.appendCondition("pd.key = ?");
@@ -110,7 +111,11 @@ public class DeploymentDataManagerImpl extends AbstractDataManager<DeploymentEnt
     }
 
     public List<String> getDeploymentResourceNames(String deploymentId) {
-        throw new UnsupportedOperationException();
+        List<ResourceEntity> resources = getProcessEngineConfiguration().getResourceDataManager().findResourcesByDeploymentId(deploymentId);
+        List<String> result = new ArrayList<>();
+        resources.forEach(r -> result.add(r.getName()));
+
+        return result;
     }
 
     public List<Deployment> findDeploymentsByNativeQuery(Map<String, Object> parameterMap, int firstResult, int maxResults) {
