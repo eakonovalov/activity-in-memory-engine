@@ -69,6 +69,12 @@ public class IgniteProcessEngineConfiguration extends ProcessEngineConfiguration
 
     @Override
     @Autowired
+    public ProcessEngineConfigurationImpl setHistoricIdentityLinkDataManager(HistoricIdentityLinkDataManager historicIdentityLinkDataManager) {
+        return super.setHistoricIdentityLinkDataManager(historicIdentityLinkDataManager);
+    }
+
+    @Override
+    @Autowired
     public ProcessEngineConfigurationImpl setProcessDefinitionDataManager(ProcessDefinitionDataManager processDefinitionDataManager) {
         return super.setProcessDefinitionDataManager(processDefinitionDataManager);
     }

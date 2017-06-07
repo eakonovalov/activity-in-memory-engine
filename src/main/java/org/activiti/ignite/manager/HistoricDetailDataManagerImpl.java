@@ -54,32 +54,32 @@ public class HistoricDetailDataManagerImpl extends AbstractDataManager<HistoricD
 
     @Override
     public List<HistoricDetailEntity> findHistoricDetailsByProcessInstanceId(String processInstanceId) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<HistoricDetailEntity> findHistoricDetailsByTaskId(String taskId) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public long findHistoricDetailCountByQueryCriteria(HistoricDetailQueryImpl historicVariableUpdateQuery) {
-        return 0;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<HistoricDetail> findHistoricDetailsByQueryCriteria(HistoricDetailQueryImpl historicVariableUpdateQuery, Page page) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<HistoricDetail> findHistoricDetailsByNativeQuery(Map<String, Object> parameterMap, int firstResult, int maxResults) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public long findHistoricDetailCountByNativeQuery(Map<String, Object> parameterMap) {
-        return 0;
+        throw new UnsupportedOperationException();
     }
 
     @Override
