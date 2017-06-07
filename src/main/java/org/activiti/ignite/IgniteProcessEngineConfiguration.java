@@ -63,6 +63,12 @@ public class IgniteProcessEngineConfiguration extends ProcessEngineConfiguration
 
     @Override
     @Autowired
+    public ProcessEngineConfigurationImpl setHistoricVariableInstanceDataManager(HistoricVariableInstanceDataManager historicVariableInstanceDataManager) {
+        return super.setHistoricVariableInstanceDataManager(historicVariableInstanceDataManager);
+    }
+
+    @Override
+    @Autowired
     public ProcessEngineConfigurationImpl setHistoricDetailDataManager(HistoricDetailDataManager historicDetailDataManager) {
         return super.setHistoricDetailDataManager(historicDetailDataManager);
     }
