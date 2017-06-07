@@ -111,6 +111,12 @@ public class IgniteProcessEngineConfiguration extends ProcessEngineConfiguration
 
     @Override
     @Autowired
+    public ProcessEngineConfigurationImpl setEventLogEntryDataManager(EventLogEntryDataManager eventLogEntryDataManager) {
+        return super.setEventLogEntryDataManager(eventLogEntryDataManager);
+    }
+
+    @Override
+    @Autowired
     public ProcessEngineConfigurationImpl setResourceDataManager(ResourceDataManager resourceDataManager) {
         return super.setResourceDataManager(resourceDataManager);
     }
@@ -155,6 +161,12 @@ public class IgniteProcessEngineConfiguration extends ProcessEngineConfiguration
     @Autowired
     public ProcessEngineConfigurationImpl setCommentDataManager(CommentDataManager commentDataManager) {
         return super.setCommentDataManager(commentDataManager);
+    }
+
+    @Override
+    @Autowired
+    public ProcessEngineConfigurationImpl setGroupDataManager(GroupDataManager groupDataManager) {
+        return super.setGroupDataManager(groupDataManager);
     }
 
 }

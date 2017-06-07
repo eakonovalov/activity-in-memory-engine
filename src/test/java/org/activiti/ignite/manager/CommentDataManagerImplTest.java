@@ -17,9 +17,9 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void findCommentsByTaskIdAndType() throws Exception {
-        CommentEntity entity1 = new CommentEntityImpl();
-        CommentEntity entity2 = new CommentEntityImpl();
-        CommentEntity entity3 = new CommentEntityImpl();
+        CommentEntity entity1 = config.getCommentDataManager().create();
+        CommentEntity entity2 = config.getCommentDataManager().create();
+        CommentEntity entity3 = config.getCommentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setTaskId(id1);
@@ -53,8 +53,8 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void findEventsByProcessInstanceId() throws Exception {
-        CommentEntity entity1 = new CommentEntityImpl();
-        CommentEntity entity2 = new CommentEntityImpl();
+        CommentEntity entity1 = config.getCommentDataManager().create();
+        CommentEntity entity2 = config.getCommentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setProcessInstanceId(id1);
@@ -77,7 +77,7 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void deleteCommentsByTaskId() throws Exception {
-        CommentEntity entity1 = new CommentEntityImpl();
+        CommentEntity entity1 = config.getCommentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setTaskId(id1);
@@ -98,7 +98,7 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void deleteCommentsByProcessInstanceId() throws Exception {
-        CommentEntity entity1 = new CommentEntityImpl();
+        CommentEntity entity1 = config.getCommentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setProcessInstanceId(id1);
@@ -119,9 +119,9 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void findCommentsByProcessInstanceId() throws Exception {
-        CommentEntity entity1 = new CommentEntityImpl();
-        CommentEntity entity2 = new CommentEntityImpl();
-        CommentEntity entity3 = new CommentEntityImpl();
+        CommentEntity entity1 = config.getCommentDataManager().create();
+        CommentEntity entity2 = config.getCommentDataManager().create();
+        CommentEntity entity3 = config.getCommentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setProcessInstanceId(id1);
@@ -152,8 +152,8 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void findComment() throws Exception {
-        CommentEntity entity1 = new CommentEntityImpl();
-        CommentEntity entity2 = new CommentEntityImpl();
+        CommentEntity entity1 = config.getCommentDataManager().create();
+        CommentEntity entity2 = config.getCommentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setId(id1);
@@ -177,8 +177,8 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void findEvent() throws Exception {
-        CommentEntity entity1 = new CommentEntityImpl();
-        CommentEntity entity2 = new CommentEntityImpl();
+        CommentEntity entity1 = config.getCommentDataManager().create();
+        CommentEntity entity2 = config.getCommentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setId(id1);

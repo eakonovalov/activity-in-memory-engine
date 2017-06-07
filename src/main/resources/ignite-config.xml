@@ -20,12 +20,14 @@
     <import resource="suspendedJobEntityCache-config.xml"/>
     <import resource="deadLetterJobEntityCache-config.xml"/>
     <import resource="eventSubscriptionEntityCache-config.xml"/>
+    <import resource="eventLogEntryEntityCache-config.xml"/>
     <import resource="deploymentEntityCache-config.xml"/>
     <import resource="resourceEntityCache-config.xml"/>
     <import resource="propertyEntityCache-config.xml"/>
-    <import resource="attachmentEntityCache-cache.xml"/>
+    <import resource="attachmentEntityCache-config.xml"/>
     <import resource="byteArrayEntityCache-config.xml"/>
     <import resource="commentEntityCache-config.xml"/>
+    <import resource="groupEntityCache-config.xml"/>
 
     <bean id="config" class="org.activiti.ignite.IgniteProcessEngineConfiguration"/>
 
@@ -74,6 +76,9 @@
     <bean id="eventSubscriptionDataManager" class="org.activiti.ignite.manager.EventSubscriptionDataManagerImpl">
         <constructor-arg ref="config"/>
     </bean>
+    <bean id="eventLogEntryDataManager" class="org.activiti.ignite.manager.EventLogEntryDataManagerImpl">
+        <constructor-arg ref="config"/>
+    </bean>
     <bean id="deploymentDataManager" class="org.activiti.ignite.manager.DeploymentDataManagerImpl">
         <constructor-arg ref="config"/>
     </bean>
@@ -90,6 +95,9 @@
         <constructor-arg ref="config"/>
     </bean>
     <bean id="commentDataManager" class="org.activiti.ignite.manager.CommentDataManagerImpl">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="groupDataManager" class="org.activiti.ignite.manager.GroupDataManagerImpl">
         <constructor-arg ref="config"/>
     </bean>
 

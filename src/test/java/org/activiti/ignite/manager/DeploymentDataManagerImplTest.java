@@ -17,7 +17,7 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void findDeploymentByIdQueryCriteria() throws Exception {
-        DeploymentEntity entity1 = new DeploymentEntityImpl();
+        DeploymentEntity entity1 = config.getDeploymentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setId(id1);
@@ -37,8 +37,8 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void findDeploymentByNameQueryCriteria() throws Exception {
-        DeploymentEntity entity1 = new DeploymentEntityImpl();
-        DeploymentEntity entity2 = new DeploymentEntityImpl();
+        DeploymentEntity entity1 = config.getDeploymentDataManager().create();
+        DeploymentEntity entity2 = config.getDeploymentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setName(id1);
@@ -63,8 +63,8 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void findDeploymentByNameLikeQueryCriteria() throws Exception {
-        DeploymentEntity entity1 = new DeploymentEntityImpl();
-        DeploymentEntity entity2 = new DeploymentEntityImpl();
+        DeploymentEntity entity1 = config.getDeploymentDataManager().create();
+        DeploymentEntity entity2 = config.getDeploymentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setName(id1);
@@ -89,8 +89,8 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void findDeploymentByCategoryQueryCriteria() throws Exception {
-        DeploymentEntity entity1 = new DeploymentEntityImpl();
-        DeploymentEntity entity2 = new DeploymentEntityImpl();
+        DeploymentEntity entity1 = config.getDeploymentDataManager().create();
+        DeploymentEntity entity2 = config.getDeploymentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setCategory(id1);
@@ -116,8 +116,8 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
     @Test
     @Ignore
     public void findDeploymentByCategoryNotEqualsQueryCriteria() throws Exception {
-        DeploymentEntity entity1 = new DeploymentEntityImpl();
-        DeploymentEntity entity2 = new DeploymentEntityImpl();
+        DeploymentEntity entity1 = config.getDeploymentDataManager().create();
+        DeploymentEntity entity2 = config.getDeploymentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setCategory(id1);
@@ -142,7 +142,7 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void findDeploymentByProcessDefinitionKeyQueryCriteria() throws Exception {
-        DeploymentEntity entity1 = new DeploymentEntityImpl();
+        DeploymentEntity entity1 = config.getDeploymentDataManager().create();
         ProcessDefinitionEntity entity2 = new ProcessDefinitionEntityImpl();
         try {
             String id1 = config.getIdGenerator().getNextId();
@@ -165,8 +165,8 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void getDeploymentResourceNames() throws Exception {
-        DeploymentEntity deployment1 = new DeploymentEntityImpl();
-        DeploymentEntity deployment2 = new DeploymentEntityImpl();
+        DeploymentEntity deployment1 = config.getDeploymentDataManager().create();
+        DeploymentEntity deployment2 = config.getDeploymentDataManager().create();
         ResourceEntity entity1 = new ResourceEntityImpl();
         ResourceEntity entity2 = new ResourceEntityImpl();
         try {

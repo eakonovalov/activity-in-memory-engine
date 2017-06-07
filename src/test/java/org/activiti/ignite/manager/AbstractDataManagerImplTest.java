@@ -21,18 +21,12 @@ public class AbstractDataManagerImplTest {
     protected static IgniteProcessEngineConfiguration config;
     protected static ProcessEngine processEngine;
 
-    @BeforeClass
-    public static void setup() {
+    static {
         ignite = Ignition.start("examples/config/example-ignite.xml");
         config = (IgniteProcessEngineConfiguration) context.getBean("config");
         config.setIgnite(ignite);
         processEngine = config.buildProcessEngine();
         Context.setCommandContext(new CommandContext(null, config));
-    }
-
-    @AfterClass
-    public static void after() {
-        ignite.close();
     }
 
 }

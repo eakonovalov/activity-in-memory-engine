@@ -18,8 +18,8 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
 
     @Test
     public void findJobByIdQueryCriteria() {
-        DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
-        DeadLetterJobEntity entity2 = new DeadLetterJobEntityImpl();
+        DeadLetterJobEntity entity1 = config.getDeadLetterJobDataManager().create();
+        DeadLetterJobEntity entity2 = config.getDeadLetterJobDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setId(id1);
@@ -43,8 +43,8 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
 
     @Test
     public void findJobByProcessInstanceIdQueryCriteria() {
-        DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
-        DeadLetterJobEntity entity2 = new DeadLetterJobEntityImpl();
+        DeadLetterJobEntity entity1 = config.getDeadLetterJobDataManager().create();
+        DeadLetterJobEntity entity2 = config.getDeadLetterJobDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setProcessInstanceId(id1);
@@ -68,8 +68,8 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
 
     @Test
     public void findJobByExecutionIdQueryCriteria() {
-        DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
-        DeadLetterJobEntity entity2 = new DeadLetterJobEntityImpl();
+        DeadLetterJobEntity entity1 = config.getDeadLetterJobDataManager().create();
+        DeadLetterJobEntity entity2 = config.getDeadLetterJobDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setExecutionId(id1);
@@ -93,8 +93,8 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
 
     @Test
     public void findJobByProcessDefinitionIdQueryCriteria() {
-        DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
-        DeadLetterJobEntity entity2 = new DeadLetterJobEntityImpl();
+        DeadLetterJobEntity entity1 = config.getDeadLetterJobDataManager().create();
+        DeadLetterJobEntity entity2 = config.getDeadLetterJobDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setProcessDefinitionId(id1);
@@ -118,9 +118,9 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
 
     @Test
     public void findJobByExecutableQueryCriteria() {
-        DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
-        DeadLetterJobEntity entity2 = new DeadLetterJobEntityImpl();
-        DeadLetterJobEntity entity3 = new DeadLetterJobEntityImpl();
+        DeadLetterJobEntity entity1 = config.getDeadLetterJobDataManager().create();
+        DeadLetterJobEntity entity2 = config.getDeadLetterJobDataManager().create();
+        DeadLetterJobEntity entity3 = config.getDeadLetterJobDataManager().create();
         try {
             config.getDeadLetterJobDataManager().insert(entity1);
 
@@ -145,11 +145,11 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
 
     @Test
     public void findJobByTypeQueryCriteria() {
-        DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
+        DeadLetterJobEntity entity1 = config.getDeadLetterJobDataManager().create();
         entity1.setJobType("timer");
         config.getDeadLetterJobDataManager().insert(entity1);
 
-        DeadLetterJobEntity entity2 = new DeadLetterJobEntityImpl();
+        DeadLetterJobEntity entity2 = config.getDeadLetterJobDataManager().create();
         entity2.setJobType("message");
         config.getDeadLetterJobDataManager().insert(entity2);
 
@@ -173,9 +173,9 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
 
     @Test
     public void findJobByDuedateQueryCriteria() {
-        DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
-        DeadLetterJobEntity entity2 = new DeadLetterJobEntityImpl();
-        DeadLetterJobEntity entity3 = new DeadLetterJobEntityImpl();
+        DeadLetterJobEntity entity1 = config.getDeadLetterJobDataManager().create();
+        DeadLetterJobEntity entity2 = config.getDeadLetterJobDataManager().create();
+        DeadLetterJobEntity entity3 = config.getDeadLetterJobDataManager().create();
         try {
             config.getDeadLetterJobDataManager().insert(entity1);
 
@@ -202,9 +202,9 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
 
     @Test
     public void findJobWithExceptionQueryCriteria() {
-        DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
-        DeadLetterJobEntity entity2 = new DeadLetterJobEntityImpl();
-        DeadLetterJobEntity entity3 = new DeadLetterJobEntityImpl();
+        DeadLetterJobEntity entity1 = config.getDeadLetterJobDataManager().create();
+        DeadLetterJobEntity entity2 = config.getDeadLetterJobDataManager().create();
+        DeadLetterJobEntity entity3 = config.getDeadLetterJobDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setExceptionMessage(id1);
@@ -232,8 +232,8 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
 
     @Test
     public void findJobByTenantIdQueryCriteria() {
-        DeadLetterJobEntity entity1 = new DeadLetterJobEntityImpl();
-        DeadLetterJobEntity entity2 = new DeadLetterJobEntityImpl();
+        DeadLetterJobEntity entity1 = config.getDeadLetterJobDataManager().create();
+        DeadLetterJobEntity entity2 = config.getDeadLetterJobDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setTenantId(id1);

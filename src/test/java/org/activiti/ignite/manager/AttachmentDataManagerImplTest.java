@@ -15,8 +15,8 @@ public class AttachmentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void findAttachmentsByProcessInstanceId() throws Exception {
-        AttachmentEntity entity1 = new AttachmentEntityImpl();
-        AttachmentEntity entity2 = new AttachmentEntityImpl();
+        AttachmentEntity entity1 = config.getAttachmentDataManager().create();
+        AttachmentEntity entity2 = config.getAttachmentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setProcessInstanceId(id1);
@@ -37,8 +37,8 @@ public class AttachmentDataManagerImplTest extends AbstractDataManagerImplTest {
 
     @Test
     public void findAttachmentsByTaskId() throws Exception {
-        AttachmentEntity entity1 = new AttachmentEntityImpl();
-        AttachmentEntity entity2 = new AttachmentEntityImpl();
+        AttachmentEntity entity1 = config.getAttachmentDataManager().create();
+        AttachmentEntity entity2 = config.getAttachmentDataManager().create();
         try {
             String id1 = config.getIdGenerator().getNextId();
             entity1.setTaskId(id1);
