@@ -12,6 +12,7 @@
     <import resource="historicProcessInstanceEntityCache-config.xml"/>
     <import resource="historicActivityInstanceEntityCache-config.xml"/>
     <import resource="historicTaskInstanceEntityCache-config.xml"/>
+    <import resource="historicDetailEntityCache-config.xml"/>
     <import resource="processDefinitionEntityCache-config.xml"/>
     <import resource="processDefinitionInfoEntityCache-config.xml"/>
     <import resource="timerJobEntityCache-cache.xml"/>
@@ -49,6 +50,9 @@
         <constructor-arg ref="config"/>
     </bean>
     <bean id="historicTaskInstanceDataManager" class="org.activiti.ignite.manager.HistoricTaskInstanceDataManagerImpl">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="historicDetailDataManager" class="org.activiti.ignite.manager.HistoricDetailDataManagerImpl">
         <constructor-arg ref="config"/>
     </bean>
     <bean id="processDefinitionDataManager" class="org.activiti.ignite.manager.ProcessDefinitionDataManagerImpl">
