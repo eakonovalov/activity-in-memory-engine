@@ -3,17 +3,14 @@ package org.activiti.ignite.manager;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.impl.HistoricProcessInstanceQueryImpl;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
-import org.activiti.engine.impl.persistence.entity.HistoricActivityInstanceEntityImpl;
 import org.activiti.engine.impl.persistence.entity.HistoricProcessInstanceEntity;
 import org.activiti.engine.impl.persistence.entity.HistoricProcessInstanceEntityImpl;
 import org.activiti.engine.impl.persistence.entity.data.HistoricProcessInstanceDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import javax.cache.Cache;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

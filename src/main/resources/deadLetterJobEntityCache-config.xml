@@ -1,7 +1,7 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/beans" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="deadLetterJobEntityCache" class="org.apache.ignite.configuration.CacheConfiguration">
         <property name="name" value="deadLetterJobEntityCache"/>
@@ -9,7 +9,8 @@
             <list>
                 <bean class="org.apache.ignite.cache.QueryEntity">
                     <property name="keyType" value="java.lang.String"/>
-                    <property name="valueType" value="org.activiti.engine.impl.persistence.entity.DeadLetterJobEntityImpl"/>
+                    <property name="valueType"
+                              value="org.activiti.engine.impl.persistence.entity.DeadLetterJobEntityImpl"/>
                     <property name="fields">
                         <map>
                             <entry key="id" value="java.lang.String"/>
@@ -20,7 +21,8 @@
                             <entry key="duedate" value="java.util.Date"/>
                             <entry key="tenantId" value="java.lang.String"/>
                             <entry key="exceptionMessage" value="java.lang.String"/>
-                            <entry key="exceptionByteArrayRef" value="org.activiti.engine.impl.persistence.entity.ByteArrayEntity"/>
+                            <entry key="exceptionByteArrayRef"
+                                   value="org.activiti.engine.impl.persistence.entity.ByteArrayEntity"/>
                         </map>
                     </property>
                     <property name="indexes">

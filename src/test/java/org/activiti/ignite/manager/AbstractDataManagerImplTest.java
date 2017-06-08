@@ -6,8 +6,6 @@ import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.Ignition;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

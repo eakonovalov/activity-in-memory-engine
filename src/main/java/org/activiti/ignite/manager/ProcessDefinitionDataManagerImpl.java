@@ -2,18 +2,15 @@ package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.ProcessDefinitionQueryImpl;
-import org.activiti.engine.impl.persistence.entity.JobEntityImpl;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntityImpl;
 import org.activiti.engine.impl.persistence.entity.data.ProcessDefinitionDataManager;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import javax.cache.Cache;
 import java.util.List;
 import java.util.Map;
 

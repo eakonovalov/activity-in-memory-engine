@@ -7,15 +7,11 @@ import org.activiti.engine.impl.persistence.entity.DeadLetterJobEntityImpl;
 import org.activiti.engine.impl.persistence.entity.data.DeadLetterJobDataManager;
 import org.activiti.engine.runtime.Job;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.apache.ignite.cache.CacheEntry;
-import org.apache.ignite.cache.query.QueryCursor;
 import org.apache.ignite.cache.query.SqlFieldsQuery;
-import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import javax.cache.Cache;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;

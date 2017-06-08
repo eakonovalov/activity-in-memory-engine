@@ -4,13 +4,10 @@ import org.activiti.engine.impl.persistence.entity.IdentityLinkEntity;
 import org.activiti.engine.impl.persistence.entity.IdentityLinkEntityImpl;
 import org.activiti.engine.impl.persistence.entity.data.IdentityLinkDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import javax.cache.Cache;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -4,13 +4,9 @@ import org.activiti.engine.impl.persistence.entity.ProcessDefinitionInfoEntity;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionInfoEntityImpl;
 import org.activiti.engine.impl.persistence.entity.data.ProcessDefinitionInfoDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import javax.cache.Cache;
-import java.util.List;
 
 /**
  * Created by ekonovalov on 26.04.2017.

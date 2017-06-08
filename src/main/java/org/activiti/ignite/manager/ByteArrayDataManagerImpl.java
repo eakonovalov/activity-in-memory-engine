@@ -1,7 +1,5 @@
 package org.activiti.ignite.manager;
 
-import org.activiti.engine.impl.persistence.entity.AttachmentEntity;
-import org.activiti.engine.impl.persistence.entity.AttachmentEntityImpl;
 import org.activiti.engine.impl.persistence.entity.ByteArrayEntity;
 import org.activiti.engine.impl.persistence.entity.ByteArrayEntityImpl;
 import org.activiti.engine.impl.persistence.entity.data.ByteArrayDataManager;

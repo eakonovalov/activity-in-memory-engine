@@ -1,13 +1,10 @@
 package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.persistence.entity.ByteArrayEntity;
-import org.activiti.engine.impl.persistence.entity.ByteArrayEntityImpl;
-import org.activiti.engine.task.Comment;
 import org.junit.Test;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by ekonovalov on 07.06.2017.
@@ -29,8 +26,7 @@ public class ByteArrayDataManagerImplTest extends AbstractDataManagerImplTest {
 
             entity = config.getByteArrayDataManager().findById(id1);
             assertNull(entity);
-        }
-        finally {
+        } finally {
             config.getByteArrayDataManager().delete(entity1);
         }
     }

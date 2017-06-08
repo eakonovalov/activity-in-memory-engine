@@ -8,7 +8,8 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by ekonovalov on 31.05.2017.
@@ -29,8 +30,7 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
 
             long count = config.getDeploymentDataManager().findDeploymentCountByQueryCriteria((DeploymentQueryImpl) processEngine.getRepositoryService().createDeploymentQuery().deploymentId(id1));
             assertTrue(count == 1);
-        }
-        finally {
+        } finally {
             config.getDeploymentDataManager().delete(entity1);
         }
     }
@@ -54,8 +54,7 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
 
             long count = config.getDeploymentDataManager().findDeploymentCountByQueryCriteria((DeploymentQueryImpl) processEngine.getRepositoryService().createDeploymentQuery().deploymentName(id1));
             assertTrue(count == 1);
-        }
-        finally {
+        } finally {
             config.getDeploymentDataManager().delete(entity1);
             config.getDeploymentDataManager().delete(entity2);
         }
@@ -80,8 +79,7 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
 
             long count = config.getDeploymentDataManager().findDeploymentCountByQueryCriteria((DeploymentQueryImpl) processEngine.getRepositoryService().createDeploymentQuery().deploymentNameLike(id1.substring(3)));
             assertTrue(count == 1);
-        }
-        finally {
+        } finally {
             config.getDeploymentDataManager().delete(entity1);
             config.getDeploymentDataManager().delete(entity2);
         }
@@ -106,8 +104,7 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
 
             long count = config.getDeploymentDataManager().findDeploymentCountByQueryCriteria((DeploymentQueryImpl) processEngine.getRepositoryService().createDeploymentQuery().deploymentCategory(id1));
             assertTrue(count == 1);
-        }
-        finally {
+        } finally {
             config.getDeploymentDataManager().delete(entity1);
             config.getDeploymentDataManager().delete(entity2);
         }
@@ -133,8 +130,7 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
 
             long count = config.getDeploymentDataManager().findDeploymentCountByQueryCriteria((DeploymentQueryImpl) processEngine.getRepositoryService().createDeploymentQuery().deploymentCategoryNotEquals(id1));
             assertTrue(count == 1);
-        }
-        finally {
+        } finally {
             config.getDeploymentDataManager().delete(entity1);
             config.getDeploymentDataManager().delete(entity2);
         }
@@ -156,8 +152,7 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
 
             long count = config.getDeploymentDataManager().findDeploymentCountByQueryCriteria((DeploymentQueryImpl) processEngine.getRepositoryService().createDeploymentQuery().processDefinitionKey(id2));
             assertTrue(count == 1);
-        }
-        finally {
+        } finally {
             config.getProcessDefinitionDataManager().delete(entity2);
             config.getDeploymentDataManager().delete(entity1);
         }
@@ -188,8 +183,7 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
             List<String> names = config.getDeploymentDataManager().getDeploymentResourceNames(id1);
             assertEquals(1, names.size());
             assertEquals("1", names.get(0));
-        }
-        finally {
+        } finally {
             config.getResourceDataManager().delete(entity1);
             config.getResourceDataManager().delete(entity2);
             config.getDeploymentDataManager().delete(deployment1);

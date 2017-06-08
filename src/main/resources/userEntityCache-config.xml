@@ -3,19 +3,19 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="attachmentEntityCache" class="org.apache.ignite.configuration.CacheConfiguration">
-        <property name="name" value="attachmentEntityCache"/>
+    <bean id="userEntityCache" class="org.apache.ignite.configuration.CacheConfiguration">
+        <property name="name" value="userEntityCache"/>
         <property name="queryEntities">
             <list>
                 <bean class="org.apache.ignite.cache.QueryEntity">
                     <property name="keyType" value="java.lang.String"/>
-                    <property name="valueType"
-                              value="org.activiti.engine.impl.persistence.entity.AttachmentEntityImpl"/>
+                    <property name="valueType" value="org.activiti.engine.impl.persistence.entity.UserEntityImpl"/>
                     <property name="fields">
                         <map>
                             <entry key="id" value="java.lang.String"/>
-                            <entry key="processInstanceId" value="java.lang.String"/>
-                            <entry key="taskId" value="java.lang.String"/>
+                            <entry key="firstName" value="java.lang.String"/>
+                            <entry key="lastName" value="java.lang.String"/>
+                            <entry key="email" value="java.lang.String"/>
                         </map>
                     </property>
                     <property name="indexes">
@@ -24,10 +24,13 @@
                                 <constructor-arg value="id"/>
                             </bean>
                             <bean class="org.apache.ignite.cache.QueryIndex">
-                                <constructor-arg value="processInstanceId"/>
+                                <constructor-arg value="firstName"/>
                             </bean>
                             <bean class="org.apache.ignite.cache.QueryIndex">
-                                <constructor-arg value="taskId"/>
+                                <constructor-arg value="lastName"/>
+                            </bean>
+                            <bean class="org.apache.ignite.cache.QueryIndex">
+                                <constructor-arg value="email"/>
                             </bean>
                         </list>
                     </property>
@@ -35,4 +38,5 @@
             </list>
         </property>
     </bean>
+
 </beans>

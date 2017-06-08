@@ -48,13 +48,13 @@ public class QueryBuilder {
 
     public String getQuery() {
         StringBuilder query = new StringBuilder();
-        if(selectClause != null) {
+        if (selectClause != null) {
             query.append("SELECT ").append(selectClause);
         }
-        if(fromClause != null) {
+        if (fromClause != null) {
             query.append(" FROM ").append(fromClause);
         }
-        if(conditions.length() > 0) {
+        if (conditions.length() > 0) {
             query.append(" WHERE ").append(conditions.toString());
         }
 

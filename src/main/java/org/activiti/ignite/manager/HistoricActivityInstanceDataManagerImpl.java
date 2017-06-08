@@ -5,16 +5,12 @@ import org.activiti.engine.impl.HistoricActivityInstanceQueryImpl;
 import org.activiti.engine.impl.Page;
 import org.activiti.engine.impl.persistence.entity.HistoricActivityInstanceEntity;
 import org.activiti.engine.impl.persistence.entity.HistoricActivityInstanceEntityImpl;
-import org.activiti.engine.impl.persistence.entity.HistoricTaskInstanceEntityImpl;
 import org.activiti.engine.impl.persistence.entity.data.HistoricActivityInstanceDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
-import org.apache.ignite.cache.query.SqlQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import javax.cache.Cache;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

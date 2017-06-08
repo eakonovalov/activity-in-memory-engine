@@ -1,7 +1,7 @@
 package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.persistence.AbstractManager;
-import org.activiti.engine.impl.persistence.entity.*;
+import org.activiti.engine.impl.persistence.entity.Entity;
 import org.activiti.engine.impl.persistence.entity.data.DataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
 import org.apache.ignite.IgniteCache;
@@ -93,7 +93,7 @@ public abstract class AbstractDataManager<E extends Entity, I extends E> extends
 
     public E findOne(Class<I> clazz, String query, Object... args) {
         List<Cache.Entry<String, I>> list = getCache().query(new SqlQuery<String, I>(clazz, query).setArgs(args)).getAll();
-        if(list.size() > 0) throw new RuntimeException("Query fetched more than one object");
+        if (list.size() > 0) throw new RuntimeException("Query fetched more than one object");
         return list.size() > 0 ? list.get(0).getValue() : null;
     }
 

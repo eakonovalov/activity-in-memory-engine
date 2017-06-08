@@ -9,6 +9,7 @@
     <import resource="executionEntityCache-config.xml"/>
     <import resource="taskEntityCache-config.xml"/>
     <import resource="identityLinkEntityCache-config.xml"/>
+    <import resource="identityInfoEntityCache-config.xml"/>
     <import resource="historicProcessInstanceEntityCache-config.xml"/>
     <import resource="historicActivityInstanceEntityCache-config.xml"/>
     <import resource="historicTaskInstanceEntityCache-config.xml"/>
@@ -20,6 +21,8 @@
     <import resource="timerJobEntityCache-cache.xml"/>
     <import resource="variableInstanceEntityCache-config.xml"/>
     <import resource="jobEntityCache-config.xml"/>
+    <import resource="membershipEntityCache-config.xml"/>
+    <import resource="modelEntityCache-config.xml"/>
     <import resource="suspendedJobEntityCache-config.xml"/>
     <import resource="deadLetterJobEntityCache-config.xml"/>
     <import resource="eventSubscriptionEntityCache-config.xml"/>
@@ -31,6 +34,7 @@
     <import resource="byteArrayEntityCache-config.xml"/>
     <import resource="commentEntityCache-config.xml"/>
     <import resource="groupEntityCache-config.xml"/>
+    <import resource="userEntityCache-config.xml"/>
 
     <bean id="config" class="org.activiti.ignite.IgniteProcessEngineConfiguration"/>
 
@@ -41,6 +45,9 @@
         <constructor-arg ref="config"/>
     </bean>
     <bean id="identityLinkDataManager" class="org.activiti.ignite.manager.IdentityLinkDataManagerImpl">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="identityInfoDataManager" class="org.activiti.ignite.manager.IdentityInfoDataManagerImpl">
         <constructor-arg ref="config"/>
     </bean>
     <bean id="historicProcessInstanceDataManager"
@@ -60,7 +67,8 @@
     <bean id="historicIdentityLinkDataManager" class="org.activiti.ignite.manager.HistoricIdentityLinkDataManagerImpl">
         <constructor-arg ref="config"/>
     </bean>
-    <bean id="historicVariableInstanceDataManager" class="org.activiti.ignite.manager.HistoricVariableInstanceDataManagerImpl">
+    <bean id="historicVariableInstanceDataManager"
+          class="org.activiti.ignite.manager.HistoricVariableInstanceDataManagerImpl">
         <constructor-arg ref="config"/>
     </bean>
     <bean id="processDefinitionDataManager" class="org.activiti.ignite.manager.ProcessDefinitionDataManagerImpl">
@@ -77,6 +85,12 @@
         <constructor-arg ref="config"/>
     </bean>
     <bean id="jobDataManager" class="org.activiti.ignite.manager.JobDataManagerImpl">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="membershipDataManager" class="org.activiti.ignite.manager.MembershipDataManagerImpl">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="modelDataManager" class="org.activiti.ignite.manager.ModelDataManagerImpl">
         <constructor-arg ref="config"/>
     </bean>
     <bean id="suspendedJobDataManager" class="org.activiti.ignite.manager.SuspendedJobDataManagerImpl">
@@ -110,6 +124,9 @@
         <constructor-arg ref="config"/>
     </bean>
     <bean id="groupDataManager" class="org.activiti.ignite.manager.GroupDataManagerImpl">
+        <constructor-arg ref="config"/>
+    </bean>
+    <bean id="userDataManager" class="org.activiti.ignite.manager.UserDataManagerImpl">
         <constructor-arg ref="config"/>
     </bean>
 

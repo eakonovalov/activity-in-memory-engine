@@ -63,11 +63,10 @@ public class DeploymentDataManagerImpl extends AbstractDataManager<DeploymentEnt
 
     private QueryBuilder getQueryBuilder(DeploymentQueryImpl deploymentQuery) {
         QueryBuilder result = new QueryBuilder();
-        if(deploymentQuery.getProcessDefinitionKey() != null || deploymentQuery.getProcessDefinitionKeyLike() != null) {
+        if (deploymentQuery.getProcessDefinitionKey() != null || deploymentQuery.getProcessDefinitionKeyLike() != null) {
             result.setFromClause("DeploymentEntityImpl d, \"processDefinitionEntityCache\".ProcessDefinitionEntityImpl pd");
             result.appendCondition("d.id = pd.deploymentId");
-        }
-        else {
+        } else {
             result.setFromClause("DeploymentEntityImpl d");
         }
         if (deploymentQuery.getDeploymentId() != null) {

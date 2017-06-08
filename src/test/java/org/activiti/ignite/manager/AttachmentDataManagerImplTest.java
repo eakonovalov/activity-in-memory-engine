@@ -1,12 +1,11 @@
 package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.persistence.entity.AttachmentEntity;
-import org.activiti.engine.impl.persistence.entity.AttachmentEntityImpl;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by ekonovalov on 07.06.2017.
@@ -28,8 +27,7 @@ public class AttachmentDataManagerImplTest extends AbstractDataManagerImplTest {
 
             List<AttachmentEntity> events = config.getAttachmentDataManager().findAttachmentsByProcessInstanceId(id2);
             assertEquals(1, events.size());
-        }
-        finally {
+        } finally {
             config.getAttachmentDataManager().delete(entity1);
             config.getAttachmentDataManager().delete(entity2);
         }
@@ -50,8 +48,7 @@ public class AttachmentDataManagerImplTest extends AbstractDataManagerImplTest {
 
             List<AttachmentEntity> events = config.getAttachmentDataManager().findAttachmentsByTaskId(id2);
             assertEquals(1, events.size());
-        }
-        finally {
+        } finally {
             config.getAttachmentDataManager().delete(entity1);
             config.getAttachmentDataManager().delete(entity2);
         }

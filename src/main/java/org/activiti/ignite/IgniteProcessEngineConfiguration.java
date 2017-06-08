@@ -45,6 +45,12 @@ public class IgniteProcessEngineConfiguration extends ProcessEngineConfiguration
 
     @Override
     @Autowired
+    public ProcessEngineConfigurationImpl setIdentityInfoDataManager(IdentityInfoDataManager identityInfoDataManager) {
+        return super.setIdentityInfoDataManager(identityInfoDataManager);
+    }
+
+    @Override
+    @Autowired
     public ProcessEngineConfigurationImpl setHistoricProcessInstanceDataManager(HistoricProcessInstanceDataManager historicProcessInstanceDataManager) {
         return super.setHistoricProcessInstanceDataManager(historicProcessInstanceDataManager);
     }
@@ -107,6 +113,18 @@ public class IgniteProcessEngineConfiguration extends ProcessEngineConfiguration
     @Autowired
     public ProcessEngineConfigurationImpl setJobDataManager(JobDataManager jobDataManager) {
         return super.setJobDataManager(jobDataManager);
+    }
+
+    @Override
+    @Autowired
+    public ProcessEngineConfigurationImpl setMembershipDataManager(MembershipDataManager membershipDataManager) {
+        return super.setMembershipDataManager(membershipDataManager);
+    }
+
+    @Override
+    @Autowired
+    public ProcessEngineConfigurationImpl setModelDataManager(ModelDataManager modelDataManager) {
+        return super.setModelDataManager(modelDataManager);
     }
 
     @Override
@@ -185,6 +203,12 @@ public class IgniteProcessEngineConfiguration extends ProcessEngineConfiguration
     @Autowired
     public ProcessEngineConfigurationImpl setGroupDataManager(GroupDataManager groupDataManager) {
         return super.setGroupDataManager(groupDataManager);
+    }
+
+    @Override
+    @Autowired
+    public ProcessEngineConfigurationImpl setUserDataManager(UserDataManager userDataManager) {
+        return super.setUserDataManager(userDataManager);
     }
 
 }

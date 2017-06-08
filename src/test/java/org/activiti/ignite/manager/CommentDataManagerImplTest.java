@@ -1,14 +1,14 @@
 package org.activiti.ignite.manager;
 
 import org.activiti.engine.impl.persistence.entity.CommentEntity;
-import org.activiti.engine.impl.persistence.entity.CommentEntityImpl;
 import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Event;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by ekonovalov on 05.06.2017.
@@ -43,8 +43,7 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
 
             comments = config.getCommentDataManager().findCommentsByType("type1");
             assertEquals(2, comments.size());
-        }
-        finally {
+        } finally {
             config.getCommentDataManager().delete(entity1);
             config.getCommentDataManager().delete(entity2);
             config.getCommentDataManager().delete(entity3);
@@ -68,8 +67,7 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
 
             List<Event> events = config.getCommentDataManager().findEventsByProcessInstanceId(id2);
             assertEquals(1, events.size());
-        }
-        finally {
+        } finally {
             config.getCommentDataManager().delete(entity1);
             config.getCommentDataManager().delete(entity2);
         }
@@ -90,8 +88,7 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
 
             comments = config.getCommentDataManager().findCommentsByTaskId(id1);
             assertEquals(0, comments.size());
-        }
-        finally {
+        } finally {
             config.getCommentDataManager().delete(entity1);
         }
     }
@@ -111,8 +108,7 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
 
             comments = config.getCommentDataManager().findCommentsByProcessInstanceId(id1);
             assertEquals(0, comments.size());
-        }
-        finally {
+        } finally {
             config.getCommentDataManager().delete(entity1);
         }
     }
@@ -142,8 +138,7 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
 
             comments = config.getCommentDataManager().findCommentsByProcessInstanceId(id1, "type1");
             assertEquals(1, comments.size());
-        }
-        finally {
+        } finally {
             config.getCommentDataManager().delete(entity1);
             config.getCommentDataManager().delete(entity2);
             config.getCommentDataManager().delete(entity3);
@@ -168,8 +163,7 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
             Comment comment = config.getCommentDataManager().findComment(id2);
             assertNotNull(comment);
             assertEquals(id2, comment.getId());
-        }
-        finally {
+        } finally {
             config.getCommentDataManager().delete(entity1);
             config.getCommentDataManager().delete(entity2);
         }
@@ -193,8 +187,7 @@ public class CommentDataManagerImplTest extends AbstractDataManagerImplTest {
             Event event = config.getCommentDataManager().findEvent(id2);
             assertNotNull(event);
             assertEquals(id2, event.getId());
-        }
-        finally {
+        } finally {
             config.getCommentDataManager().delete(entity1);
             config.getCommentDataManager().delete(entity2);
         }

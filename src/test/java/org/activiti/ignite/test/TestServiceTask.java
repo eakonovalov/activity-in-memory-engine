@@ -5,9 +5,9 @@ import org.activiti.engine.delegate.JavaDelegate;
 
 public class TestServiceTask implements JavaDelegate {
 
-	@Override
-	public void execute(DelegateExecution execution) {
-		System.out.println("Simple service task!!!");
-	}
+    @Override
+    public void execute(DelegateExecution execution) {
+        System.out.println("Simple service task!!!");
+    }
 
 }
