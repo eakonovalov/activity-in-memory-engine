@@ -85,8 +85,7 @@ public class DeploymentDataManagerImpl extends AbstractDataManager<DeploymentEnt
             result.appendArgs(deploymentQuery.getCategory());
         }
         if (deploymentQuery.getCategoryNotEquals() != null) {
-            result.appendCondition("d.category <> ?");
-            result.appendArgs(deploymentQuery.getCategoryNotEquals());
+            throw new UnsupportedOperationException();
         }
         if (deploymentQuery.getProcessDefinitionKey() != null) {
             result.appendCondition("pd.key = ?");

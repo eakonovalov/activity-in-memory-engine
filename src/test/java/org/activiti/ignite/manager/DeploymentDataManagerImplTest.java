@@ -110,8 +110,7 @@ public class DeploymentDataManagerImplTest extends AbstractDataManagerImplTest {
         }
     }
 
-    @Test
-    @Ignore
+    @Test(expected = UnsupportedOperationException.class)
     public void findDeploymentByCategoryNotEqualsQueryCriteria() throws Exception {
         DeploymentEntity entity1 = config.getDeploymentDataManager().create();
         DeploymentEntity entity2 = config.getDeploymentDataManager().create();

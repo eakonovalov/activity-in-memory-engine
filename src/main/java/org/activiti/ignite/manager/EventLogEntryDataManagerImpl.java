@@ -5,10 +5,13 @@ import org.activiti.engine.impl.persistence.entity.EventLogEntryEntity;
 import org.activiti.engine.impl.persistence.entity.EventLogEntryEntityImpl;
 import org.activiti.engine.impl.persistence.entity.data.EventLogEntryDataManager;
 import org.activiti.ignite.IgniteProcessEngineConfiguration;
+import org.apache.ignite.cache.query.SqlFieldsQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -36,22 +39,36 @@ public class EventLogEntryDataManagerImpl extends AbstractDataManager<EventLogEn
 
     @Override
     public List<EventLogEntry> findAllEventLogEntries() {
-        throw new UnsupportedOperationException();
+        return new ArrayList<>(findAll());
     }
 
     @Override
     public List<EventLogEntry> findEventLogEntries(long startLogNr, long pageSize) {
-        throw new UnsupportedOperationException();
+        QueryBuilder queryBuilder = new QueryBuilder();
+        queryBuilder.setSelectClause("*");
+        queryBuilder.setFromClause("EventLogEntryEntityImpl");
+        queryBuilder.setOrderByClause("logNumber");
+        queryBuilder.appendCondition("logNumber >= ?");
+        queryBuilder.appendArgs(startLogNr);
+        SqlFieldsQuery qry = new SqlFieldsQuery(queryBuilder.getQuery()).setArgs(queryBuilder.getArgs().toArray());
+        Iterator<List<?>> itr = getCache().query(qry).iterator();
+        List<EventLogEntry> result = new ArrayList<>();
+        while (itr.hasNext() && result.size() < pageSize) {
+            List<?> o = itr.next();
+            result.add((EventLogEntry) o.get(1));
+        }
+
+        return result;
     }
 
     @Override
     public List<EventLogEntry> findEventLogEntriesByProcessInstanceId(String processInstanceId) {
-        throw new UnsupportedOperationException();
+        return new ArrayList<>(findList(EventLogEntryEntityImpl.class, "processInstanceId = ?", processInstanceId));
     }
 
     @Override
     public void deleteEventLogEntry(long logNr) {
-        throw new UnsupportedOperationException();
+        removeList(EventLogEntryEntityImpl.class, "logNumber = ?", logNr);
     }
 
 }

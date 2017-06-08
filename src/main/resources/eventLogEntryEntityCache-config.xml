@@ -14,7 +14,8 @@
                     <property name="fields">
                         <map>
                             <entry key="id" value="java.lang.String"/>
-                            <entry key="executionId" value="java.lang.String"/>
+                            <entry key="logNumber" value="java.lang.Long"/>
+                            <entry key="processInstanceId" value="java.lang.String"/>
                         </map>
                     </property>
                     <property name="indexes">
@@ -23,7 +24,10 @@
                                 <constructor-arg value="id"/>
                             </bean>
                             <bean class="org.apache.ignite.cache.QueryIndex">
-                                <constructor-arg value="executionId"/>
+                                <constructor-arg value="logNumber"/>
+                            </bean>
+                            <bean class="org.apache.ignite.cache.QueryIndex">
+                                <constructor-arg value="processInstanceId"/>
                             </bean>
                         </list>
                     </property>

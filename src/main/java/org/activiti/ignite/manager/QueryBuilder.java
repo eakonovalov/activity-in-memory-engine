@@ -11,6 +11,7 @@ public class QueryBuilder {
 
     private String selectClause;
     private String fromClause;
+    private String orderByClause;
     private StringBuilder conditions = new StringBuilder();
     private List<Object> args = new ArrayList<>();
 
@@ -28,6 +29,14 @@ public class QueryBuilder {
 
     public void setFromClause(String fromClause) {
         this.fromClause = fromClause;
+    }
+
+    public String getOrderByClause() {
+        return orderByClause;
+    }
+
+    public void setOrderByClause(String orderByClause) {
+        this.orderByClause = orderByClause;
     }
 
     public String getConditions() {
@@ -56,6 +65,9 @@ public class QueryBuilder {
         }
         if (conditions.length() > 0) {
             query.append(" WHERE ").append(conditions.toString());
+        }
+        if(orderByClause != null) {
+            query.append(" ORDER BY " + orderByClause);
         }
 
         return query.toString();

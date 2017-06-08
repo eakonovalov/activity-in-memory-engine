@@ -140,7 +140,11 @@ public class DeadLetterJobDataManagerImpl extends AbstractDataManager<DeadLetter
 
     @Override
     public void updateJobTenantIdForDeployment(String deploymentId, String newTenantId) {
-        throw new UnsupportedOperationException();
+        DeadLetterJobEntity job = findById(deploymentId);
+        if(job != null) {
+            job.setTenantId(newTenantId);
+            update(job);
+        }
     }
 
 }

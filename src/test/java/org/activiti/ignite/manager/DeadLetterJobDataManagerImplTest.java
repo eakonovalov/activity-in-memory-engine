@@ -257,4 +257,31 @@ public class DeadLetterJobDataManagerImplTest extends AbstractDataManagerImplTes
         }
     }
 
+    @Test
+    public void updateJobTenantIdForDeployment() {
+        DeadLetterJobEntity entity1 = config.getDeadLetterJobDataManager().create();
+        try {
+            String id1 = config.getIdGenerator().getNextId();
+            entity1.setId(id1);
+            String tenantId1 = config.getIdGenerator().getNextId();
+            entity1.setTenantId(tenantId1);
+            config.getDeadLetterJobDataManager().insert(entity1);
+
+            List<Job> jobs = config.getDeadLetterJobDataManager().findJobsByQueryCriteria((DeadLetterJobQueryImpl) processEngine.getManagementService().createDeadLetterJobQuery().jobTenantId(tenantId1), null);
+            assertTrue(jobs.size() == 1);
+            assertTrue(jobs.get(0) instanceof DeadLetterJobEntityImpl);
+
+            String tenantId2 = config.getIdGenerator().getNextId();
+            config.getDeadLetterJobDataManager().updateJobTenantIdForDeployment(id1, tenantId2);
+
+            jobs = config.getDeadLetterJobDataManager().findJobsByQueryCriteria((DeadLetterJobQueryImpl) processEngine.getManagementService().createDeadLetterJobQuery().jobTenantId(tenantId1), null);
+            assertTrue(jobs.size() == 0);
+
+            jobs = config.getDeadLetterJobDataManager().findJobsByQueryCriteria((DeadLetterJobQueryImpl) processEngine.getManagementService().createDeadLetterJobQuery().jobTenantId(tenantId2), null);
+            assertTrue(jobs.size() == 1);
+        } finally {
+            config.getDeadLetterJobDataManager().delete(entity1);
+        }
+    }
+
 }
