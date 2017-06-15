@@ -25,6 +25,7 @@ public class AbstractDataManagerImplTest {
         config.setIgnite(ignite);
         processEngine = config.buildProcessEngine();
         Context.setCommandContext(new CommandContext(null, config));
+        Context.setProcessEngineConfiguration(config);
     }
 
 }

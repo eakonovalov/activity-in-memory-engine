@@ -19,8 +19,8 @@ import java.util.Set;
  */
 public abstract class AbstractDataManager<E extends Entity, I extends E> extends AbstractManager implements DataManager<E> {
 
-    private IgniteProcessEngineConfiguration processEngineConfiguration;
-    private IgniteCache<String, E> cache;
+    protected IgniteProcessEngineConfiguration processEngineConfiguration;
+    protected IgniteCache<String, E> cache;
 
     public AbstractDataManager(IgniteProcessEngineConfiguration processEngineConfiguration) {
         super(processEngineConfiguration);
@@ -81,7 +81,7 @@ public abstract class AbstractDataManager<E extends Entity, I extends E> extends
 
     protected abstract CacheConfiguration<String, E> getConfig();
 
-    public List<E> findList(Class<I> clazz, String query, Object... args) {
+    public List<E> findList(Class<? extends I> clazz, String query, Object... args) {
         List<Cache.Entry<String, I>> list = getCache().query(new SqlQuery<String, I>(clazz, query).setArgs(args)).getAll();
         List<E> result = new ArrayList<>();
         for (Cache.Entry<String, I> entry : list) {
@@ -91,7 +91,7 @@ public abstract class AbstractDataManager<E extends Entity, I extends E> extends
         return result;
     }
 
-    public E findOne(Class<I> clazz, String query, Object... args) {
+    public E findOne(Class<? extends I> clazz, String query, Object... args) {
         List<Cache.Entry<String, I>> list = getCache().query(new SqlQuery<String, I>(clazz, query).setArgs(args)).getAll();
         if (list.size() > 0) throw new RuntimeException("Query fetched more than one object");
         return list.size() > 0 ? list.get(0).getValue() : null;
@@ -104,7 +104,7 @@ public abstract class AbstractDataManager<E extends Entity, I extends E> extends
         return result;
     }
 
-    public void removeList(Class<I> clazz, String query, Object... args) {
+    public void removeList(Class<? extends I> clazz, String query, Object... args) {
         List<E> list = findList(clazz, query, args);
         Set<String> keys = new HashSet<>();
         list.forEach(c -> keys.add(c.getId()));
